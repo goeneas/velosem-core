@@ -1,0 +1,1023 @@
+
+import { TemplateSection } from './types';
+import { COMMON_CSS_BASE, SVG_ICONS } from './constants';
+
+const PLACEHOLDER_IMG = "https://integrityremodeling.ca/wp-content/uploads/2025/12/41-Back-of-Home-Twilight-PhotoBeechtree-Cres-Oakvile-2.avif";
+
+export const templates: TemplateSection[] = [
+  {
+    id: 'hero',
+    name: 'Primary Hero Banner',
+    description: '40/60 Split. Desktop: Navy box sticks to left edge, centered vertically. Mobile: Image on top (landscape crop) with box directly underneath.',
+    fields: [
+      { id: 'title', label: 'Title', type: 'textarea', defaultValue: "Unified Design.<br>Masterful Build." },
+      { id: 'desc', label: 'Subtext', type: 'textarea', defaultValue: "Stop juggling unreliable contractors. We orchestrate a complete, cohesive transformation for your home—combining siding, decks, and architectural details into a single vision." },
+      { id: 'img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Featured Image' },
+      { id: 'img_new_tab', label: 'Open in new tab?', type: 'checkbox', defaultValue: "false", group: 'Featured Image' },
+      { id: 'img_alt', label: 'Alt Text', type: 'text', defaultValue: "Architectural Exterior Design", group: 'Featured Image' },
+      { id: 'img_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Featured Image' },
+      { id: 'img_title', label: 'Title Attribute', type: 'text', defaultValue: "", group: 'Featured Image' },
+      { id: 'cta', label: 'Button Text', type: 'text', defaultValue: "START YOUR TRANSFORMATION" },
+      { id: 'cta_link', label: 'Button Link', type: 'url', defaultValue: "#contact" }
+    ],
+    css: `
+      .hero-section { background-color: var(--white); position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 42%) minmax(0, 58%); align-items: stretch; min-height: min(860px, 88vh); }
+      .hero-section__content-area { position: relative; z-index: 10; display: flex; align-items: stretch; padding: 2rem 0; }
+      .hero-section__navy-box { display: flex; flex-direction: column; justify-content: center; height: 100%; background: linear-gradient(135deg, #0b1220 0%, var(--navy) 60%); box-shadow: 40px 40px 100px -20px rgba(15, 23, 42, 0.25); padding: clamp(2.75rem, 4vw, 5rem) clamp(2.25rem, 4vw, 4.75rem); width: calc(100% + clamp(2.5rem, 6vw, 6.5rem)); margin-right: calc(-1 * clamp(2.5rem, 6vw, 6.5rem)); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+      /* Verify isolation: This hover effect should ONLY work within the iframe */
+      .hero-section:hover .hero-section__navy-box { transform: translateX(10px); }
+      .hero-section h1 { font-size: clamp(2.4rem, 3.6vw, 3.65rem); color: var(--white); margin-bottom: 1.75rem; line-height: 1.08; font-weight: 600; font-style: italic; }
+      .hero-section p { color: var(--white); font-size: 1rem; line-height: 1.65; opacity: 0.9; max-width: 34rem; margin-bottom: 3rem; }
+      .hero-section__image-area { position: relative; min-height: min(860px, 88vh); width: 100%; background: #f8fafc; overflow: hidden; }
+      .hero-section__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s ease; }
+      .hero-section:hover .hero-section__img { transform: scale(1.05); }
+      .btn-white { background: var(--white); color: var(--navy); border: none; font-size: 0.875rem; font-weight: 800; padding: 1.4rem 3.25rem; border-radius: 0; display: inline-block; text-align: center; letter-spacing: 0.05em; transition: 0.3s ease; cursor: pointer; white-space: nowrap !important; width: auto !important; max-width: none !important; }
+      .btn-white:hover { background: var(--orange); color: var(--white); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+      @media (max-width: 1024px) {
+        .hero-section { display: flex; flex-direction: column-reverse; grid-template-columns: 1fr; min-height: auto; }
+        .hero-section__image-area { min-height: 0; height: 300px; width: 100%; }
+        .hero-section__content-area { padding: 0; display: block; margin-top: -3rem; position: relative; z-index: 20; }
+        .hero-section__navy-box { height: auto; width: 90%; margin: 0 auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); padding: 3.25rem 2rem; transform: none !important; }
+        .hero-section h1 { font-size: 2.55rem; }
+        .btn-white { padding: 1rem 1.5rem; width: 100% !important; max-width: 100% !important; white-space: normal !important; text-align: center; }
+      }
+      .hero-section { width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); }
+    `,
+    renderHtml: (v) => `<section id="top" class="hero-section"><div class="hero-section__content-area"><div class="hero-section__navy-box"><h1>${v.title}</h1><p>${v.desc}</p><div class="hero-section__actions"><a href="${v.cta_link}" class="btn btn-white">${v.cta}</a></div></div></div><div class="hero-section__image-area"><img src="${v.img}" alt="${v.img_alt}" title="${v.img_title}" class="hero-section__img" fetchpriority="high"></div></section>`,
+    referenceHtml: `<section id="top" class="hero-section"><div class="hero-section__content-area"><div class="hero-section__navy-box"><h1>Unified Design.<br>Masterful Build.</h1><p>Stop juggling unreliable contractors. We orchestrate a complete, cohesive transformation for your home—combining siding, decks, and architectural details into a single vision.</p><div class="hero-section__actions"><a href="#contact" class="btn btn-white">START YOUR TRANSFORMATION</a></div></div></div><div class="hero-section__image-area"><img src="${PLACEHOLDER_IMG}" alt="Architectural Exterior Design" class="hero-section__img" fetchpriority="high"></div></section>`
+  },
+  {
+    id: 'seo-header',
+    name: 'SEO Article Header',
+    description: 'Article top with Quick Facts and Table of Contents container.',
+    fields: [
+      { id: 'title', label: 'Article Title', type: 'textarea', defaultValue: "The Ultimate Guide to Custom Deck Features" },
+      { id: 'img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Featured Image' },
+      { id: 'img_new_tab', label: 'Open in new tab?', type: 'checkbox', defaultValue: "false", group: 'Featured Image' },
+      { id: 'img_alt', label: 'Alt Text', type: 'text', defaultValue: "", group: 'Featured Image' },
+      { id: 'img_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Featured Image' },
+      { id: 'img_title', label: 'Title Attribute', type: 'text', defaultValue: "", group: 'Featured Image' },
+      { id: 'facts_title', label: 'Facts Heading', type: 'text', defaultValue: "Key Takeaways" },
+      { id: 'facts_list', label: 'Quick Facts List', type: 'textarea', defaultValue: "<li>Proper planning prevents costly delays.</li><li>Material choice affects longevity and maintenance.</li><li>Permits are essential for structural work.</li>" }
+    ],
+    css: `
+      .seo-hero { background-color: var(--white); position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 42%) minmax(0, 58%); align-items: stretch; min-height: 700px; border-bottom: 1px solid #e2e8f0; }
+      
+      .seo-hero__content { position: relative; z-index: 10; display: flex; align-items: center; padding: 2rem 0; }
+      .seo-box { background: var(--white); border: 1px solid var(--navy); padding: clamp(3rem, 5vw, 4rem); width: calc(100% + clamp(2rem, 5vw, 4rem)); margin-right: calc(-1 * clamp(2rem, 5vw, 4rem)); box-shadow: 20px 20px 60px -10px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; position: relative; }
+      
+      .seo-box h1 { font-size: clamp(2.25rem, 3.5vw, 3.25rem); color: var(--navy); margin-bottom: 2rem; line-height: 1.1; font-weight: 700; }
+      .seo-facts h2 { font-size: 1.25rem; font-weight: 700; color: var(--navy); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--orange); display: inline-block; padding-bottom: 0.25rem; }
+      .seo-facts ul { list-style: none; padding: 0; margin: 0; }
+      .seo-facts li { position: relative; padding-left: 1.5rem; margin-bottom: 0.75rem; color: var(--slate); line-height: 1.6; font-size: 1rem; }
+      .seo-facts li::before { content: "•"; color: var(--orange); font-weight: bold; position: absolute; left: 0; top: 0rem; font-size: 1.25rem; line-height: 1.5rem; }
+
+      .seo-hero__img-area { position: relative; width: 100%; height: 100%; background: #f1f5f9; overflow: hidden; }
+      .seo-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+      /* Table of Contents Container */
+      .toc-container { background: var(--white); border-bottom: 1px solid #e2e8f0; padding: 0; width: 100%; }
+      .toc-box { border: 1px solid #e2e8f0; border-radius: 4px; overflow: hidden; margin: 3rem auto; max-width: 100%; width: 100%; }
+      .toc-header { background: #f8fafc; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+      .toc-header h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin: 0; }
+      .toc-content { padding: 0 !important; display: block; border-top: 1px solid #e2e8f0; }
+      .toc-content p, .toc-box > p { display: none !important; margin: 0 !important; padding: 0 !important; }
+      .toc-icon { transition: transform 0.3s ease; }
+      .toc-icon.rotate { transform: rotate(180deg); }
+      
+      .toc-list-dynamic { list-style: none !important; padding: 1.5rem !important; margin: 0 !important; columns: 2; }
+      .toc-list-dynamic:empty { padding: 0 !important; }
+      .toc-list-dynamic li { margin-bottom: 0.5rem; font-size: 0.95rem; color: var(--navy); position: relative; padding-left: 1rem; }
+      .toc-list-dynamic li::before { content: "•"; color: var(--gray); position: absolute; left: 0; }
+      .toc-list-dynamic li a { text-decoration: none; color: inherit; transition: color 0.2s; }
+      .toc-list-dynamic li a:hover { color: var(--orange); }
+      .toc-list-dynamic .toc-h3 { margin-left: 1.5rem; font-size: 0.9em; opacity: 0.9; }
+
+      @media (max-width: 1024px) {
+        .seo-hero { display: flex; flex-direction: column-reverse; min-height: auto; }
+        .seo-hero__img-area { height: 350px; min-height: 0; }
+        .seo-hero__content { padding: 0; display: block; margin-top: -4rem; }
+        .seo-box { width: 90%; margin: 0 auto; padding: 2.5rem 2rem; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.15); }
+        .toc-list-dynamic { columns: 1; }
+      }
+    `,
+    renderHtml: (v) => `
+      <section class="seo-article-wrap">
+        <!-- Hero Split -->
+        <div class="seo-hero">
+          <div class="seo-hero__content">
+            <div class="seo-box">
+              <h1>${v.title}</h1>
+              <div class="seo-facts">
+                <h2>${v.facts_title}</h2>
+                <ul>
+                  ${v.facts_list}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="seo-hero__img-area">
+            ${v.img_link ? `<a href="${v.img_link}" ${v.img_new_tab === 'true' ? 'target="_blank" rel="noopener noreferrer"' : ''} style="display:block;height:100%;">` : ''}
+            <figure style="margin:0;height:100%;position:relative;">
+              <img src="${v.img}" alt="${v.img_alt}" title="${v.img_title}" class="seo-hero__img" decoding="async">
+              ${v.img_caption ? `<figcaption style="position:absolute;bottom:0;left:0;width:100%;background:rgba(0,0,0,0.6);color:white;padding:0.5rem;font-size:0.85rem;">${v.img_caption}</figcaption>` : ''}
+            </figure>
+            ${v.img_link ? `</a>` : ''}
+          </div>
+        </div>
+
+        <div class="toc-container"><div class="toc-box"><div class="toc-header" id="toc-toggle"><h3>Table of Contents</h3><svg class="toc-icon rotate" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></div><div class="toc-content" id="toc-body" style="display: none;"><ul class="toc-list-dynamic" id="toc-list"></ul></div></div></div>
+        <script>
+          (function() {
+            // Function to run TOC logic
+            const initTOC = () => {
+              const tocList = document.getElementById('toc-list');
+              const tocToggle = document.getElementById('toc-toggle');
+              const tocBody = document.getElementById('toc-body');
+              const tocIcon = tocToggle.querySelector('.toc-icon');
+              
+              if (!tocList) return;
+              
+              // Clear any existing items (safeguard)
+              tocList.innerHTML = '';
+              
+              // Select all H2 and H3, excluding those inside the SEO header itself if desired
+              // For now, we select all content headers in the page body
+              // Excluding .seo-box headers (like "Key Takeaways") and the TOC header itself
+              const headers = document.querySelectorAll('h2, h3');
+              
+              headers.forEach((header, index) => {
+                // Skip headers inside the SEO Box (e.g. Key Takeaways) and TOC box
+                if (header.closest('.seo-box') || header.closest('.toc-box')) return;
+                
+                // Ensure header has an ID
+                if (!header.id) {
+                  header.id = 'section-' + index;
+                }
+                
+                const li = document.createElement('li');
+                if (header.tagName.toLowerCase() === 'h3') {
+                  li.classList.add('toc-h3');
+                }
+                
+                const link = document.createElement('a');
+                link.href = '#' + header.id;
+                link.textContent = header.textContent;
+                
+                li.appendChild(link);
+                tocList.appendChild(li);
+              });
+              
+              // Toggle functionality
+              if (tocToggle) {
+                // Remove old listener if any (cleaner not needed for simple script insertion)
+                tocToggle.onclick = () => {
+                   if (tocBody.style.display === 'none') {
+                     tocBody.style.display = 'block';
+                     tocIcon.classList.remove('rotate');
+                   } else {
+                     tocBody.style.display = 'none';
+                     tocIcon.classList.add('rotate');
+                   }
+                };
+              }
+            };
+            
+            // Run on load
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', initTOC);
+            } else {
+              initTOC();
+            }
+          })();
+        </script>
+      </section>
+    `,
+    referenceHtml: `
+      <section class="seo-article-wrap">
+        <div class="seo-hero">
+          <div class="seo-hero__content">
+            <div class="seo-box">
+              <h1>The Ultimate Guide to Custom Deck Features</h1>
+              <div class="seo-facts">
+                <h2>Key Takeaways</h2>
+                <ul>
+                  <li>Proper planning prevents costly delays.</li>
+                  <li>Material choice affects longevity and maintenance.</li>
+                  <li>Permits are essential for structural work.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="seo-hero__img-area">
+            <img src="${PLACEHOLDER_IMG}" alt="Deck Features" class="seo-hero__img">
+          </div>
+        </div>
+        <div class="toc-container">
+          <div class="toc-box">
+            <div class="toc-header">
+              <h3>Table of Contents</h3>
+              <span>▼</span>
+            </div>
+            <div class="toc-content">
+              <!-- Placeholder for WP Plugin -->
+            </div>
+          </div>
+        </div>
+      </section>
+    `
+  },
+  {
+    id: 'seo-article',
+    name: 'SEO Article (Full)',
+    description: 'Complete article with Header, Table of Contents, and Rich Text Body.',
+    fields: [
+      { id: 'title', label: 'Article Title', type: 'textarea', defaultValue: "The Ultimate Guide to Custom Deck Features" },
+      { id: 'img', label: 'Image URL', type: 'url', defaultValue: "https://integrityremodeling.ca/wp-content/uploads/2025/12/41-Back-of-Home-Twilight-PhotoBeechtree-Cres-Oakvile-2.avif", group: 'Featured Image' },
+      { id: 'img_new_tab', label: 'Open in new tab?', type: 'checkbox', defaultValue: "false", group: 'Featured Image' },
+      { id: 'img_alt', label: 'Alt Text', type: 'text', defaultValue: "", group: 'Featured Image' },
+      { id: 'img_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Featured Image' },
+      { id: 'img_title', label: 'Title Attribute', type: 'text', defaultValue: "", group: 'Featured Image' },
+      { id: 'facts_title', label: 'Facts Heading', type: 'text', defaultValue: "Key Takeaways" },
+      { id: 'facts_list', label: 'Quick Facts List', type: 'textarea', defaultValue: "<li>Proper planning prevents costly delays.</li><li>Material choice affects longevity and maintenance.</li><li>Permits are essential for structural work.</li>" },
+      { id: 'body_content', label: 'Article Body', type: 'textarea', defaultValue: "<h2>Introduction</h2><p>Start writing your article here. Use the toolbar to add formatting.</p><h3>Section 1</h3><p>More details...</p>", group: 'Content' }
+    ],
+    css: `
+      /* Reuse SEO Hero Styles */
+      .seo-hero { background-color: var(--white); position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 42%) minmax(0, 58%); align-items: stretch; min-height: 700px; border-bottom: 1px solid #e2e8f0; }
+      .seo-hero__content { position: relative; z-index: 10; display: flex; align-items: center; padding: 2rem 0; }
+      .seo-box { background: var(--white); border: 1px solid var(--navy); padding: clamp(3rem, 5vw, 4rem); width: calc(100% + clamp(2rem, 5vw, 4rem)); margin-right: calc(-1 * clamp(2rem, 5vw, 4rem)); box-shadow: 20px 20px 60px -10px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; position: relative; }
+      .seo-box h1 { font-size: clamp(2.25rem, 3.5vw, 3.25rem); color: var(--navy); margin-bottom: 2rem; line-height: 1.1; font-weight: 700; }
+      .seo-facts h2 { font-size: 1.25rem; font-weight: 700; color: var(--navy); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--orange); display: inline-block; padding-bottom: 0.25rem; }
+      .seo-facts ul { list-style: none; padding: 0; margin: 0; }
+      .seo-facts li { position: relative; padding-left: 1.5rem; margin-bottom: 0.75rem; color: var(--slate); line-height: 1.6; font-size: 1rem; }
+      .seo-facts li::before { content: "•"; color: var(--orange); font-weight: bold; position: absolute; left: 0; top: 0rem; font-size: 1.25rem; line-height: 1.5rem; }
+      .seo-hero__img-area { position: relative; width: 100%; height: 100%; background: #f1f5f9; overflow: hidden; }
+      .seo-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      
+      /* TOC Styles */
+      .toc-container { background: var(--white); border-bottom: 1px solid #e2e8f0; padding: 0; width: 100%; }
+      .toc-box { border: 1px solid #e2e8f0; border-radius: 4px; overflow: hidden; margin: 3rem auto; max-width: 100%; width: 100%; }
+      .toc-header { background: #f8fafc; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+      .toc-header h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin: 0; }
+      .toc-content { padding: 0 !important; display: block; border-top: 1px solid #e2e8f0; }
+      .toc-content p, .toc-box > p { display: none !important; margin: 0 !important; padding: 0 !important; }
+      .toc-icon { transition: transform 0.3s ease; }
+      .toc-icon.rotate { transform: rotate(180deg); }
+      .toc-list-dynamic { list-style: none !important; padding: 1.5rem !important; margin: 0 !important; columns: 2; }
+      .toc-list-dynamic:empty { padding: 0 !important; }
+      .toc-list-dynamic li { margin-bottom: 0.5rem; font-size: 0.95rem; color: var(--navy); position: relative; padding-left: 1rem; }
+      .toc-list-dynamic li::before { content: "•"; color: var(--gray); position: absolute; left: 0; }
+      .toc-list-dynamic li a { text-decoration: none; color: inherit; transition: color 0.2s; }
+      .toc-list-dynamic li a:hover { color: var(--orange); }
+      .toc-list-dynamic .toc-h3 { margin-left: 1.5rem; font-size: 0.9em; opacity: 0.9; }
+
+      /* Body Content Styles */
+      .article-body { max-width: 100%; width: 100%; margin: 0 auto; padding: 4rem 2rem; color: var(--slate); font-size: 1.125rem; line-height: 1.8; }
+      .article-body h2 { font-size: 2rem; font-weight: 700; color: var(--navy); margin-top: 3rem; margin-bottom: 1.5rem; }
+      .article-body h3 { font-size: 1.5rem; font-weight: 700; color: var(--navy); margin-top: 2.5rem; margin-bottom: 1rem; }
+      .article-body p { margin-bottom: 1.5rem; }
+      .article-body ul { margin-bottom: 1.5rem; padding-left: 1.5rem; list-style: disc; }
+      .article-body ol { margin-bottom: 1.5rem; padding-left: 1.5rem; list-style: decimal; }
+      .article-body li { margin-bottom: 0.5rem; }
+      .article-body a { color: var(--orange); text-decoration: underline; font-weight: 600; }
+      .article-body blockquote { border-left: 4px solid var(--orange); padding-left: 1.5rem; font-style: italic; margin: 2rem 0; color: var(--navy); }
+
+      @media (max-width: 1024px) {
+        .seo-hero { display: flex; flex-direction: column-reverse; min-height: auto; }
+        .seo-hero__img-area { height: 350px; min-height: 0; }
+        .seo-hero__content { padding: 0; display: block; margin-top: -4rem; }
+        .seo-box { width: 90%; margin: 0 auto; padding: 2.5rem 2rem; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.15); }
+        .toc-list-dynamic { columns: 1; }
+        .article-body { padding: 3rem 1.5rem; }
+      }
+    `,
+    renderHtml: (v) => `
+      <section class="seo-article-wrap">
+        <!-- Hero Split -->
+        <div class="seo-hero">
+          <div class="seo-hero__content">
+            <div class="seo-box">
+              <h1>${v.title}</h1>
+              <div class="seo-facts">
+                <h2>${v.facts_title}</h2>
+                <ul>
+                  ${v.facts_list}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="seo-hero__img-area">
+            ${v.img_link ? `<a href="${v.img_link}" ${v.img_new_tab === 'true' ? 'target="_blank" rel="noopener noreferrer"' : ''} style="display:block;height:100%;">` : ''}
+            <figure style="margin:0;height:100%;position:relative;">
+              <img src="${v.img}" alt="${v.img_alt}" title="${v.img_title}" class="seo-hero__img" decoding="async">
+              ${v.img_caption ? `<figcaption style="position:absolute;bottom:0;left:0;width:100%;background:rgba(0,0,0,0.6);color:white;padding:0.5rem;font-size:0.85rem;">${v.img_caption}</figcaption>` : ''}
+            </figure>
+            ${v.img_link ? `</a>` : ''}
+          </div>
+        </div>
+
+        <div class="toc-container"><div class="toc-box"><div class="toc-header" id="toc-toggle"><h3>Table of Contents</h3><svg class="toc-icon rotate" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></div><div class="toc-content" id="toc-body" style="display: none;"><ul class="toc-list-dynamic" id="toc-list"></ul></div></div></div>
+        
+        <!-- Article Body -->
+        <div class="article-body">
+          ${v.body_content}
+        </div>
+
+        <script>
+          (function() {
+            // Function to run TOC logic
+            const initTOC = () => {
+              const tocList = document.getElementById('toc-list');
+              const tocToggle = document.getElementById('toc-toggle');
+              const tocBody = document.getElementById('toc-body');
+              const tocIcon = tocToggle.querySelector('.toc-icon');
+              
+              if (!tocList) return;
+              
+              // Clear any existing items (safeguard)
+              tocList.innerHTML = '';
+              
+              const headers = document.querySelectorAll('h2, h3');
+              
+              headers.forEach((header, index) => {
+                if (header.closest('.seo-box') || header.closest('.toc-box')) return;
+                
+                if (!header.id) {
+                  header.id = 'section-' + index;
+                }
+                
+                const li = document.createElement('li');
+                if (header.tagName.toLowerCase() === 'h3') {
+                  li.classList.add('toc-h3');
+                }
+                
+                const link = document.createElement('a');
+                link.href = '#' + header.id;
+                link.textContent = header.textContent;
+                
+                li.appendChild(link);
+                tocList.appendChild(li);
+              });
+              
+              if (tocToggle) {
+                tocToggle.onclick = () => {
+                   if (tocBody.style.display === 'none') {
+                     tocBody.style.display = 'block';
+                     tocIcon.classList.remove('rotate');
+                   } else {
+                     tocBody.style.display = 'none';
+                     tocIcon.classList.add('rotate');
+                   }
+                };
+              }
+            };
+            
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', initTOC);
+            } else {
+              initTOC();
+            }
+          })();
+        </script>
+      </section>
+    `,
+    referenceHtml: ``
+  },
+  {
+    id: 'process',
+    name: 'Process Roadmap (Vertical)',
+    description: 'Detailed Design-Build journey with vertical timeline and editable steps.',
+    fields: [
+      { id: 'pre', label: 'Section Label', type: 'text', defaultValue: "OUR DESIGN-BUILD PROCESS" },
+      { id: 'title', label: 'Main Heading', type: 'textarea', defaultValue: "One Vision. One Team. One Seamless Journey." },
+      { id: 'intro', label: 'Intro Text', type: 'textarea', defaultValue: "We replace the fragmented \"general contractor\" model with a holistic Design-Build approach. From the first sketch to the final sweep, you have one dedicated partner accountable for the entire lifecycle of your project." },
+      // Step 01
+      { id: 's1t', label: 'Step 1 Title', type: 'text', defaultValue: "Discovery & Consultation" },
+      { id: 's1d', label: 'Step 1 Description', type: 'textarea', defaultValue: "We begin by listening. We don't just measure your space; we map your lifestyle. We clarify your goals, budget, and timeline upfront to ensure our vision aligns perfectly with yours." },
+      // Step 02
+      { id: 's2t', label: 'Step 2 Title', type: 'text', defaultValue: "Unified Design & Material Selection" },
+      { id: 's2d', label: 'Step 2 Description', type: 'textarea', defaultValue: "This is where the magic happens. Our design team creates a comprehensive master plan where every element—from the siding texture to the garden palette—is chosen to complement the whole." },
+      // Step 03
+      { id: 's3t', label: 'Step 3 Title', type: 'text', defaultValue: "The Transparent Proposal" },
+      { id: 's3d', label: 'Step 3 Description', type: 'textarea', defaultValue: "No guesswork. No hidden fees. We present a detailed, fixed-price proposal and a clear construction schedule. You will know exactly what you are paying for before a single shovel hits the ground." },
+      // Step 04
+      { id: 's4t', label: 'Step 4 Title', type: 'text', defaultValue: "Masterful Execution" },
+      { id: 's4d', label: 'Step 4 Description', type: 'textarea', defaultValue: "Your dedicated Project Manager orchestrates our in-house craftsmen and trusted trade partners. We manage all permits, inspections, and logistics while keeping you in the loop." },
+      // Step 05
+      { id: 's5t', label: 'Step 5 Title', type: 'text', defaultValue: "Handover & Care" },
+      { id: 's5d', label: 'Step 5 Description', type: 'textarea', defaultValue: "We conduct a meticulous final walkthrough to ensure every detail meets our exacting standards. We equip you with maintenance knowledge and stand behind our work with robust warranties." }
+    ],
+    css: `
+      .roadmap-section { padding: 8rem 0; background: #fff; overflow: hidden; }
+      
+      .roadmap-header { text-align: center; max-width: 840px; margin: 0 auto 6rem; }
+      .roadmap-header span { display: block; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.2em; color: var(--gray); margin-bottom: 1.5rem; text-transform: uppercase; }
+      .roadmap-header h2 { font-size: clamp(2rem, 4vw, 2.75rem); color: var(--navy); margin-bottom: 2.5rem; line-height: 1.1; letter-spacing: -0.02em; font-weight: 600; }
+      .roadmap-header p { font-size: 1.125rem; color: var(--gray); line-height: 1.7; opacity: 0.85; }
+
+      .roadmap-container { position: relative; max-width: 900px; margin: 0 auto; padding-left: 2rem; }
+      
+      /* Vertical Line */
+      .roadmap-container::before {
+        content: '';
+        position: absolute;
+        left: 3.5rem;
+        top: 2rem;
+        bottom: 2rem;
+        width: 1px;
+        background: #e2e8f0;
+        z-index: 1;
+      }
+
+      .roadmap-step { 
+        position: relative; 
+        z-index: 2; 
+        display: flex; 
+        gap: 3.5rem; 
+        margin-bottom: 5rem;
+        align-items: flex-start;
+      }
+      
+      .roadmap-step:last-child { margin-bottom: 0; }
+
+      .step-icon-box {
+        flex-shrink: 0;
+        width: 4.5rem;
+        height: 4.5rem;
+        background: var(--navy);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+      }
+      
+      .step-icon-box svg { width: 1.75rem; height: 1.75rem; }
+
+      .step-content { padding-top: 0.5rem; }
+      .step-label { font-size: 0.875rem; font-weight: 600; color: var(--gray); opacity: 0.6; margin-bottom: 0.75rem; display: block; }
+      .step-content h3 { font-size: 1.5rem; margin-bottom: 1.25rem; color: var(--navy); font-family: var(--sans); font-weight: 600; }
+      .step-content p { font-size: 1.05rem; color: var(--gray); line-height: 1.75; max-width: 760px; }
+
+      @media (max-width: 768px) {
+        .roadmap-section { padding: 5rem 0; }
+        .roadmap-container::before { left: 2.25rem; }
+        .roadmap-step { gap: 1.5rem; flex-direction: column; }
+        .step-icon-box { width: 3.5rem; height: 3.5rem; }
+        .step-icon-box svg { width: 1.25rem; height: 1.25rem; }
+        .roadmap-container { padding-left: 0; }
+        .roadmap-step { padding-left: 1.75rem; }
+      }
+    `,
+    renderHtml: (v) => `
+<section class="roadmap-section">
+  <div class="container">
+    <div class="roadmap-header">
+      <span>${v.pre}</span>
+      <h2>${v.title}</h2>
+      <p>${v.intro}</p>
+    </div>
+    
+    <div class="roadmap-container">
+      <div class="roadmap-step">
+        <div class="step-icon-box">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+        <div class="step-content">
+          <span class="step-label">Step 01</span>
+          <h3>${v.s1t}</h3>
+          <p>${v.s1d}</p>
+        </div>
+      </div>
+
+      <div class="roadmap-step">
+        <div class="step-icon-box">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+        </div>
+        <div class="step-content">
+          <span class="step-label">Step 02</span>
+          <h3>${v.s2t}</h3>
+          <p>${v.s2d}</p>
+        </div>
+      </div>
+
+      <div class="roadmap-step">
+        <div class="step-icon-box">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        </div>
+        <div class="step-content">
+          <span class="step-label">Step 03</span>
+          <h3>${v.s3t}</h3>
+          <p>${v.s3d}</p>
+        </div>
+      </div>
+
+      <div class="roadmap-step">
+        <div class="step-icon-box">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 011-1h1a2 2 0 100-4H7a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>
+        </div>
+        <div class="step-content">
+          <span class="step-label">Step 04</span>
+          <h3>${v.s4t}</h3>
+          <p>${v.s4d}</p>
+        </div>
+      </div>
+
+      <div class="roadmap-step">
+        <div class="step-icon-box">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+        <div class="step-content">
+          <span class="step-label">Step 05</span>
+          <h3>${v.s5t}</h3>
+          <p>${v.s5d}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>`,
+    referenceHtml: `
+<section class="roadmap-section">
+  <div class="container">
+    <div class="roadmap-header">
+      <span>OUR DESIGN-BUILD PROCESS</span>
+      <h2>One Vision. One Team. One Seamless Journey.</h2>
+      <p>We replace the fragmented "general contractor" model with a holistic Design-Build approach. From the first sketch to the final sweep, you have one dedicated partner accountable for the entire lifecycle of your project.</p>
+    </div>
+    
+    <div class="roadmap-container">
+      <div class="roadmap-step">
+        <div class="step-icon-box">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+        <div class="step-content">
+          <span class="step-label">Step 01</span>
+          <h3>Discovery & Consultation</h3>
+          <p>We begin by listening. We don't just measure your space; we map your lifestyle. We clarify your goals, budget, and timeline upfront to ensure our vision aligns perfectly with yours.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="step-icon-box">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+        </div>
+        <div class="step-content">
+          <span class="step-label">Step 02</span>
+          <h3>Unified Design & Material Selection</h3>
+          <p>This is where the magic happens. Our design team creates a comprehensive master plan where every element—from the siding texture to the garden palette—is chosen to complement the whole.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="step-icon-box">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        </div>
+        <div class="step-content">
+          <span class="step-label">Step 03</span>
+          <h3>The Transparent Proposal</h3>
+          <p>No guesswork. No hidden fees. We present a detailed, fixed-price proposal and a clear construction schedule. You will know exactly what you are paying for before a single shovel hits the ground.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="step-icon-box">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 011-1h1a2 2 0 100-4H7a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>
+        </div>
+        <div class="step-content">
+          <span class="step-label">Step 04</span>
+          <h3>Masterful Execution</h3>
+          <p>Your dedicated Project Manager orchestrates our in-house craftsmen and trusted trade partners. We manage all permits, inspections, and logistics while keeping you in the loop.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="step-icon-box">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+        <div class="step-content">
+          <span class="step-label">Step 05</span>
+          <h3>Handover & Care</h3>
+          <p>We conduct a meticulous final walkthrough to ensure every detail meets our exacting standards. We equip you with maintenance knowledge and stand behind our work with robust warranties.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>`
+  },
+  {
+    id: 'trust',
+    name: 'Value Props / Trust Indicators',
+    description: 'High-visibility trust grid optimized for mobile readability.',
+    fields: [
+      { id: 'title', label: 'Section Title', type: 'text', defaultValue: "Why Choose Integrity" },
+      { id: 'sub', label: 'Section Subtext', type: 'textarea', defaultValue: "Building trust through transparency and craftsmanship." },
+      { id: 't1', label: 'Prop 1 Title', type: 'text', defaultValue: "No Financial Surprises" },
+      { id: 'd1', label: 'Prop 1 Desc', type: 'textarea', defaultValue: "Tired of unforeseen costs? Our detailed, fixed-price proposals mean your budget is respected from start to finish." }
+    ],
+    css: `
+      .value-props { padding: 5rem 0; background: var(--light); }
+      .value-props__header { text-align: center; max-width: 800px; margin: 0 auto 4rem; }
+      .value-props__header h2 { font-size: clamp(2rem, 4vw, 2.75rem); color: var(--navy); margin-bottom: 1.5rem; font-weight: 600; }
+      .value-props__header p { font-size: 1.125rem; color: var(--gray); line-height: 1.6; }
+      .value-props__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+      .value-props__card { background: var(--white); padding: 3rem; border-top: 5px solid var(--orange); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); transition: 0.3s ease; }
+      .value-props__card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+      .value-props__icon { width: 3.5rem; height: 3.5rem; border-radius: 12px; background: #fff5f3; color: var(--orange); display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; }
+      .value-props__card h3 { font-size: 1.25rem; margin-bottom: 1rem; color: var(--navy); font-weight: 600; }
+      .value-props__card p { font-size: 1rem; color: var(--gray); line-height: 1.6; }
+      @media (max-width: 640px) { .value-props { padding: 4rem 0; } .value-props__grid { grid-template-columns: 1fr; gap: 1.5rem; } .value-props__card { padding: 2rem; } }
+    `,
+    renderHtml: (v) => `<section id="why-choose-us" class="value-props"><div class="container"><div class="value-props__header"><h2>${v.title}</h2><p>${v.sub}</p></div><div class="value-props__grid"><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>${v.t1}</h3><p>${v.d1}</p></div><div class="value-props__card" style="border-top-color: var(--navy);"><div class="value-props__icon" style="background: #f1f5f9; color: var(--navy);">${SVG_ICONS.check}</div><h3>Heritage of Quality</h3><p>Backed by the legacy of The Deck Store (est. 1986), we bring decades of stability and craftsmanship to every project.</p></div><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>A Process You Can Trust</h3><p>We replace chaos with clarity. You get a single dedicated project manager and a consistent team from start to finish.</p></div></div></div></section>`,
+    referenceHtml: `<section id="why-choose-us" class="value-props"><div class="container"><div class="value-props__header"><h2>Why Choose Integrity</h2><p>Building trust through transparency and craftsmanship.</p></div><div class="value-props__grid"><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>No Financial Surprises</h3><p>Tired of unforeseen costs? Our detailed, fixed-price proposals mean your budget is respected from start to finish.</p></div><div class="value-props__card" style="border-top-color: var(--navy);"><div class="value-props__icon" style="background: #f1f5f9; color: var(--navy);">${SVG_ICONS.check}</div><h3>Heritage of Quality</h3><p>Backed by the legacy of The Deck Store (est. 1986), we bring decades of stability and craftsmanship to every project.</p></div><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>A Process You Can Trust</h3><p>We replace chaos with clarity. You get a single dedicated project manager and a consistent team from start to finish.</p></div></div></div></section>`
+  },
+  {
+    id: 'services',
+    name: 'Service Categories Grid',
+    description: 'Service overview with hover effects and clean typography.',
+    fields: [
+      { id: 'h2', label: 'Section Heading', type: 'text', defaultValue: "The Elements of Your Transformation" },
+      { id: 'sub', label: 'Section Subtext', type: 'text', defaultValue: "We don't just sell services; we architect cohesive exteriors where every detail works in harmony." },
+
+      // Service 1
+      { id: 's1_title', label: 'Title', type: 'text', defaultValue: "Siding Solutions", group: 'Service 1' },
+      { id: 's1_desc', label: 'Description', type: 'textarea', defaultValue: "Transform curb appeal and energy efficiency with premium materials masterfully installed for longevity.", group: 'Service 1' },
+      { id: 's1_img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Service 1' },
+      { id: 's1_img_alt', label: 'Alt Text', type: 'text', defaultValue: "Siding", group: 'Service 1' },
+      { id: 's1_link', label: 'Link URL', type: 'text', defaultValue: "/services/siding", group: 'Service 1' },
+      { id: 's1_btn', label: 'Button Text', type: 'text', defaultValue: "View Siding Options", group: 'Service 1' },
+
+      // Service 2
+      { id: 's2_title', label: 'Title', type: 'text', defaultValue: "Custom Decks", group: 'Service 2' },
+      { id: 's2_desc', label: 'Description', type: 'textarea', defaultValue: "Leveraging our heritage to build stunning composite and wood decks that anchor your outdoor living space.", group: 'Service 2' },
+      { id: 's2_img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Service 2' },
+      { id: 's2_img_alt', label: 'Alt Text', type: 'text', defaultValue: "Decks", group: 'Service 2' },
+      { id: 's2_link', label: 'Link URL', type: 'text', defaultValue: "/services/decks", group: 'Service 2' },
+      { id: 's2_btn', label: 'Button Text', type: 'text', defaultValue: "View Deck Gallery", group: 'Service 2' },
+
+      // Service 3
+      { id: 's3_title', label: 'Title', type: 'text', defaultValue: "Porches & Porticos", group: 'Service 3' },
+      { id: 's3_desc', label: 'Description', type: 'textarea', defaultValue: "Create a grand, welcoming entrance. We design custom porches that perfectly complement your architecture.", group: 'Service 3' },
+      { id: 's3_img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Service 3' },
+      { id: 's3_img_alt', label: 'Alt Text', type: 'text', defaultValue: "Porches", group: 'Service 3' },
+      { id: 's3_link', label: 'Link URL', type: 'text', defaultValue: "/services/porches", group: 'Service 3' },
+      { id: 's3_btn', label: 'Button Text', type: 'text', defaultValue: "See Porch Designs", group: 'Service 3' },
+    ],
+    css: `
+      .offerings-overview { padding: 6rem 0; }
+      .offerings-overview__header { text-align: center; max-width: 800px; margin: 0 auto 4.5rem; }
+      .offerings-overview__header h2 { font-size: clamp(2rem, 4vw, 2.75rem); margin-bottom: 1.5rem; font-weight: 600; }
+      .offerings-overview__header p { font-size: 1.125rem; color: var(--gray); }
+      .offerings-overview__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2.5rem; }
+      .offering-card { background: var(--white); border: 1px solid #f1f5f9; border-radius: 8px; overflow: hidden; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+      .offering-card:hover { transform: translateY(-8px); border-color: var(--orange); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08); }
+      .offering-card__img { height: 18rem; overflow: hidden; position: relative; }
+      .offering-card__img img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
+      .offering-card:hover .offering-card__img img { transform: scale(1.1); }
+      .offering-card__body { padding: 2.5rem; }
+      .offering-card__body h3 { font-size: 1.35rem; margin-bottom: 1rem; font-weight: 600; }
+      .offering-card__body p { font-size: 0.95rem; color: var(--gray); margin-bottom: 2rem; line-height: 1.6; }
+      .offering-card .btn-outline:hover { color: var(--white) !important; background: var(--navy); border-color: var(--navy); }
+      @media (max-width: 768px) { .offerings-overview { padding: 4rem 0; } .offerings-overview__grid { grid-template-columns: 1fr; gap: 2rem; } .offering-card__img { height: 14rem; } .offering-card__body { padding: 2rem; } }
+    `,
+    renderHtml: (v) => `<section id="services" class="offerings-overview"><div class="container"><div class="offerings-overview__header"><h2>${v.h2}</h2><p>${v.sub}</p></div><div class="offerings-overview__grid"><article class="offering-card"><div class="offering-card__img"><img src="${v.s1_img}" alt="${v.s1_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s1_title}</h3><p>${v.s1_desc}</p><a href="${v.s1_link}" class="btn btn-outline" style="color: var(--navy);">${v.s1_btn}</a></div></article><article class="offering-card"><div class="offering-card__img"><img src="${v.s2_img}" alt="${v.s2_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s2_title}</h3><p>${v.s2_desc}</p><a href="${v.s2_link}" class="btn btn-outline" style="color: var(--navy);">${v.s2_btn}</a></div></article><article class="offering-card"><div class="offering-card__img"><img src="${v.s3_img}" alt="${v.s3_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s3_title}</h3><p>${v.s3_desc}</p><a href="${v.s3_link}" class="btn btn-outline" style="color: var(--navy);">${v.s3_btn}</a></div></article></div></div></section>`,
+    referenceHtml: `<section id="services" class="offerings-overview"><div class="container"><div class="offerings-overview__header"><h2>The Elements of Your Transformation</h2><p>We don't just sell services; we architect cohesive exteriors where every detail works in harmony.</p></div><div class="offerings-overview__grid"><article class="offering-card"><div class="offering-card__img"><img src="${PLACEHOLDER_IMG}" alt="Siding" loading="lazy"></div><div class="offering-card__body"><h3>Siding Solutions</h3><p>Transform curb appeal and energy efficiency with premium materials masterfully installed for longevity.</p><a href="#" class="btn btn-outline" style="color: var(--navy);">View Siding Options</a></div></article><article class="offering-card"><div class="offering-card__img"><img src="${PLACEHOLDER_IMG}" alt="Decks" loading="lazy"></div><div class="offering-card__body"><h3>Custom Decks</h3><p>Leveraging our heritage to build stunning composite and wood decks that anchor your outdoor living space.</p><a href="#" class="btn btn-outline" style="color: var(--navy);">View Deck Gallery</a></div></article></div></div></section>`
+  },
+  {
+    id: 'feature-left',
+    name: 'Service Feature (Left)',
+    description: 'Split layout spotlight with image on the left.',
+    fields: [
+      { id: 'title', label: 'Title', type: 'text', defaultValue: "Sunrooms & Enclosures" },
+      { id: 'desc', label: 'Description', type: 'textarea', defaultValue: "Extend your living space into the outdoors with light-filled enclosures designed for four-season enjoyment." },
+      { id: 'img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Featured Image' },
+      { id: 'img_new_tab', label: 'Open in new tab?', type: 'checkbox', defaultValue: "false", group: 'Featured Image' },
+      { id: 'img_alt', label: 'Alt Text', type: 'text', defaultValue: "Sunrooms & Enclosures", group: 'Featured Image' },
+      { id: 'img_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Featured Image' },
+      { id: 'img_title', label: 'Title Attribute', type: 'text', defaultValue: "", group: 'Featured Image' },
+    ],
+    css: `
+      .feature-split { padding: 7rem 0; overflow: hidden; }
+      .feature-split__grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(2rem, 5vw, 6rem); align-items: center; }
+      .feature-split__img { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 4px; overflow: hidden; box-shadow: 20px 20px 0px var(--light); }
+      .feature-split__img img { width: 100%; height: 100%; object-fit: cover; }
+      .feature-split__content h2 { font-size: clamp(2rem, 4vw, 2.75rem); margin-bottom: 2rem; line-height: 1.1; font-weight: 600; }
+      .feature-split__content p { font-size: 1.125rem; color: var(--gray); margin-bottom: 3rem; line-height: 1.7; max-width: 32rem; }
+      @media (max-width: 1024px) { .feature-split { padding: 4rem 0; } .feature-split__grid { grid-template-columns: 1fr; gap: 3.5rem; } .feature-split__img { height: auto; order: 1; } .feature-split__content { order: 2; } }
+    `,
+    renderHtml: (v) => {
+      const imgBlock = `
+        <div class="feature-split__img">
+          ${v.img_link ? `<a href="${v.img_link}" ${v.img_new_tab === 'true' ? 'target="_blank" rel="noopener noreferrer"' : ''} style="display:block;height:100%;">` : ''}
+          <img src="${v.img}" alt="${v.img_alt}" title="${v.img_title}" loading="lazy">
+          ${v.img_link ? `</a>` : ''}
+        </div>
+      `;
+      return `<section class="feature-split"><div class="container"><div class="feature-split__grid">${imgBlock}<div class="feature-split__content"><h2>${v.title}</h2><p>${v.desc}</p><a href="#" class="btn btn-navy">Learn More</a></div></div></div></section>`;
+    },
+    referenceHtml: `<section class="feature-split"><div class="container"><div class="feature-split__grid"><div class="feature-split__img"><img src="${PLACEHOLDER_IMG}" alt="Sunrooms & Enclosures" loading="lazy"></div><div class="feature-split__content"><h2>Sunrooms & Enclosures</h2><p>Extend your living space into the outdoors with light-filled enclosures designed for four-season enjoyment.</p><a href="#" class="btn btn-navy">Learn More</a></div></div></div></section>`
+  },
+  {
+    id: 'feature-right',
+    name: 'Service Feature (Right)',
+    description: 'Split layout spotlight with image on the right.',
+    fields: [
+      { id: 'title', label: 'Title', type: 'text', defaultValue: "Architectural Accents" },
+      { id: 'desc', label: 'Description', type: 'textarea', defaultValue: "Elevate your home's character with custom porticos and high-performance trims." },
+      { id: 'img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Featured Image' },
+      { id: 'img_new_tab', label: 'Open in new tab?', type: 'checkbox', defaultValue: "false", group: 'Featured Image' },
+      { id: 'img_alt', label: 'Alt Text', type: 'text', defaultValue: "Architectural Accents", group: 'Featured Image' },
+      { id: 'img_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Featured Image' },
+      { id: 'img_title', label: 'Title Attribute', type: 'text', defaultValue: "", group: 'Featured Image' },
+    ],
+    css: `
+      .feature-split { padding: 7rem 0; overflow: hidden; }
+      .feature-split__grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 5vw, 6rem); align-items: center; }
+      .feature-split__img { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 4px; overflow: hidden; box-shadow: -20px 20px 0px var(--light); }
+      .feature-split__img img { width: 100%; height: 100%; object-fit: cover; }
+      .feature-split__content h2 { font-size: clamp(2rem, 4vw, 2.75rem); margin-bottom: 2rem; line-height: 1.1; font-weight: 600; }
+      .feature-split__content p { font-size: 1.125rem; color: var(--gray); margin-bottom: 3rem; line-height: 1.7; max-width: 32rem; }
+      @media (max-width: 1024px) { .feature-split { padding: 4rem 0; } .feature-split__grid { grid-template-columns: 1fr; gap: 3.5rem; } .feature-split__img { height: auto; order: 1; box-shadow: 20px 20px 0px var(--light); } .feature-split__content { order: 2; } }
+    `,
+    renderHtml: (v) => {
+      const imgBlock = `
+        <div class="feature-split__img">
+          ${v.img_link ? `<a href="${v.img_link}" ${v.img_new_tab === 'true' ? 'target="_blank" rel="noopener noreferrer"' : ''} style="display:block;height:100%;">` : ''}
+          <img src="${v.img}" alt="${v.img_alt}" title="${v.img_title}" loading="lazy">
+          ${v.img_link ? `</a>` : ''}
+        </div>
+      `;
+      return `<section class="feature-split"><div class="container"><div class="feature-split__grid"><div class="feature-split__content"><h2>${v.title}</h2><p>${v.desc}</p><a href="#" class="btn btn-navy">Learn More</a></div>${imgBlock}</div></div></section>`;
+    },
+    referenceHtml: `<section class="feature-split"><div class="container"><div class="feature-split__grid"><div class="feature-split__content"><h2>Architectural Accents</h2><p>Elevate your home's character with custom porticos and high-performance trims.</p><a href="#" class="btn btn-navy">Learn More</a></div><div class="feature-split__img"><img src="${PLACEHOLDER_IMG}" alt="Architectural Accents" loading="lazy"></div></div></div></section>`
+  },
+  {
+    id: 'portfolio',
+    name: 'Feature Portfolio',
+    description: 'Alternating feature rows with overlapping dark cards.',
+    fields: [
+      { id: 'heading', label: 'Section Title', type: 'text', defaultValue: 'Recent Transformations' },
+      { id: 'subtext', label: 'Section Description', type: 'textarea', defaultValue: 'We don\'t just sell services; we architect cohesive exteriors where every detail works in harmony.' },
+
+      { id: 'project1_title', label: 'Project 1 Title', type: 'text', defaultValue: 'Unified Design. Masterful Build.' },
+      { id: 'project1_desc', label: 'Project 1 Description', type: 'textarea', defaultValue: 'Stop juggling unreliable contractors. We orchestrate a complete, cohesive transformation for your home—combining siding, decks, and architectural details into a single vision.' },
+      { id: 'project1_cta', label: 'Project 1 CTA', type: 'text', defaultValue: 'VIEW TRANSFORMATION' },
+      { id: 'project1_image', label: 'Image URL', type: 'url', defaultValue: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=2000', group: 'Project 1 Image' },
+      { id: 'project1_link_new_tab', label: 'New Tab?', type: 'checkbox', defaultValue: 'false', group: 'Project 1 Image' },
+      { id: 'project1_alt', label: 'Alt Text', type: 'text', defaultValue: '', group: 'Project 1 Image' },
+      { id: 'project1_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Project 1 Image' },
+      { id: 'project1_title', label: 'Title Attribute', type: 'text', defaultValue: '', group: 'Project 1 Image' },
+
+      { id: 'project2_title', label: 'Project 2 Title', type: 'text', defaultValue: 'Unified Design. Masterful Build.' },
+      { id: 'project2_desc', label: 'Project 2 Description', type: 'textarea', defaultValue: 'Stop juggling unreliable contractors. We orchestrate a complete, cohesive transformation for your home—combining siding, decks, and architectural details into a single vision.' },
+      { id: 'project2_cta', label: 'Project 2 CTA', type: 'text', defaultValue: 'START YOUR TRANSFORMATION' },
+      { id: 'project2_image', label: 'Image URL', type: 'url', defaultValue: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=2000', group: 'Project 2 Image' },
+      { id: 'project2_link_new_tab', label: 'New Tab?', type: 'checkbox', defaultValue: 'false', group: 'Project 2 Image' },
+      { id: 'project2_alt', label: 'Alt Text', type: 'text', defaultValue: '', group: 'Project 2 Image' },
+      { id: 'project2_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Project 2 Image' },
+      { id: 'project2_title', label: 'Title Attribute', type: 'text', defaultValue: '', group: 'Project 2 Image' },
+    ],
+    css: `
+      .gallery-section { background-color: var(--white); padding: 6rem 0 8rem; position: relative; overflow: hidden; }
+      .gallery-header { text-align: center; max-width: 48rem; margin: 0 auto 6rem; padding: 0 1.5rem; }
+      .gallery-header h2 { color: var(--navy); font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 600; margin-bottom: 1.5rem; line-height: 1.1; }
+      .gallery-header p { color: var(--gray); font-size: 1.125rem; line-height: 1.6; }
+      
+      .project-row { display: grid; grid-template-columns: minmax(0, 42%) minmax(0, 58%); align-items: center; min-height: 450px; margin-bottom: 6rem; position: relative; }
+      .project-row.reverse { grid-template-columns: minmax(0, 58%) minmax(0, 42%); }
+      
+      .project-content { position: relative; z-index: 10; padding: 2rem 0; display: flex; align-items: stretch; }
+      .project-card { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: clamp(2.5rem, 4vw, 4rem); color: var(--white); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); width: calc(100% + 4rem); margin-right: -4rem; display: flex; flex-direction: column; justify-content: center; min-height: 400px; }
+      
+      .project-row.reverse .project-card { margin-right: 0; margin-left: -4rem; width: calc(100% + 4rem); }
+      .project-row.reverse .project-content { justify-content: flex-end; }
+      
+      .project-card h3 { font-size: 1.4rem; font-weight: 600; font-style: normal; margin-bottom: 1rem; line-height: 1.2; color: var(--white); }
+      .project-card p { opacity: 0.85; margin-bottom: 2.5rem; line-height: 1.6; font-size: 1rem; color: var(--light); }
+      
+      .project-image-wrapper { position: relative; height: 100%; min-height: 450px; width: 100%; overflow: hidden; }
+      .project-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; display: block; }
+      .project-row:hover .project-img { transform: scale(1.05); }
+      
+      .btn-outline-white { background: transparent; border: 2px solid var(--white); color: var(--white); padding: 1rem 2.5rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.875rem; transition: 0.3s ease; display: inline-block; cursor: pointer; white-space: nowrap !important; flex-shrink: 0 !important; width: auto !important; max-width: none !important; }
+      .btn-outline-white:hover { background: var(--white); color: #0b1220; }
+
+      @media (max-width: 1024px) {
+        .gallery-section { padding: 4rem 0; }
+        .project-row { display: flex; flex-direction: column-reverse; margin-bottom: 4rem; }
+        .project-row.reverse { flex-direction: column; }
+        .project-image-wrapper { height: 300px; min-height: auto; width: 100%; }
+        .project-content { width: 100%; padding: 0; margin-top: -3rem; }
+        .project-card, .project-row.reverse .project-card { width: 90%; margin: 0 auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); }
+      }
+    `,
+    renderHtml: (values) => `
+      <section class="gallery-section">
+        <div class="gallery-header">
+          <h2>${values.heading}</h2>
+          <p>${values.subtext}</p>
+        </div>
+        
+        <!-- Project 1 (Standard: Text Left, Image Right) -->
+        <div class="project-row">
+          <div class="project-content">
+            <div class="project-card">
+              <h3>${values.project1_title}</h3>
+              <p>${values.project1_desc}</p>
+              <div>
+                <button class="btn-outline-white">${values.project1_cta}</button>
+              </div>
+            </div>
+          </div>
+          <div class="project-image-wrapper">
+            <a href="#" ${values.project1_link_new_tab === 'true' ? 'target="_blank" rel="noopener noreferrer"' : ''} style="display:block;height:100%;">
+              <img src="${values.project1_image}" alt="${values.project1_alt}" title="${values.project1_title}" class="project-img" loading="lazy">
+            </a>
+          </div>
+        </div>
+        
+        <!-- Project 2 (Reverse: Image Left, Text Right) -->
+        <div class="project-row reverse">
+          <div class="project-image-wrapper">
+            <a href="#" ${values.project2_link_new_tab === 'true' ? 'target="_blank" rel="noopener noreferrer"' : ''} style="display:block;height:100%;">
+              <img src="${values.project2_image}" alt="${values.project2_alt}" title="${values.project2_title}" class="project-img" loading="lazy">
+            </a>
+          </div>
+          <div class="project-content">
+            <div class="project-card">
+              <h3>${values.project2_title}</h3>
+              <p>${values.project2_desc}</p>
+              <div>
+                <button class="btn-outline-white">${values.project2_cta}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    `,
+    referenceHtml: `<section class="gallery-section">
+        <div class="gallery-header">
+          <h2>Recent Transformations</h2>
+          <p>We don't just sell services; we architect cohesive exteriors where every detail works in harmony.</p>
+        </div>
+        
+        <!-- Project 1 (Standard: Text Left, Image Right) -->
+        <div class="project-row">
+          <div class="project-content">
+            <div class="project-card">
+              <h3>Unified Design. Masterful Build.</h3>
+              <p>Stop juggling unreliable contractors. We orchestrate a complete, cohesive transformation for your home—combining siding, decks, and architectural details into a single vision.</p>
+              <div>
+                <button class="btn-outline-white">VIEW TRANSFORMATION</button>
+              </div>
+            </div>
+          </div>
+          <div class="project-image-wrapper">
+            <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80&w=2000" alt="Unified Design. Masterful Build." class="project-img" loading="lazy">
+          </div>
+        </div>
+        
+        <!-- Project 2 (Reverse: Image Left, Text Right) -->
+        <div class="project-row reverse">
+          <div class="project-image-wrapper">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2000" alt="Unified Design. Masterful Build." class="project-img" loading="lazy">
+          </div>
+          <div class="project-content">
+            <div class="project-card">
+              <h3>Unified Design. Masterful Build.</h3>
+              <p>Stop juggling unreliable contractors. We orchestrate a complete, cohesive transformation for your home—combining siding, decks, and architectural details into a single vision.</p>
+              <div>
+                <button class="btn-outline-white">START YOUR TRANSFORMATION</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>`
+  },
+  {
+    id: 'testimonials',
+    name: 'Client Experiences',
+    description: 'Three-column grid for detailed customer feedback.',
+    fields: [
+      { id: 'title', label: 'Section Title', type: 'text', defaultValue: "Client Experiences" },
+      // Review 1
+      { id: 'review1_text', label: 'Review 1 Text', type: 'textarea', defaultValue: "Integrity Remodeling was a revelation. One team managed everything perfectly, from the initial design to the final cleanup." },
+      { id: 'review1_name', label: 'Review 1 Name', type: 'text', defaultValue: "Sarah J., Oakville" },
+      // Review 2
+      { id: 'review2_text', label: 'Review 2 Text', type: 'textarea', defaultValue: "The attention to detail was incredible. They didn't just build a deck; they created an outdoor living room we never want to leave." },
+      { id: 'review2_name', label: 'Review 2 Name', type: 'text', defaultValue: "Mark T., Burlington" },
+      // Review 3
+      { id: 'review3_text', label: 'Review 3 Text', type: 'textarea', defaultValue: "Professional, timely, and beautiful work. The unified design process made decision-making so much easier." },
+      { id: 'review3_name', label: 'Review 3 Name', type: 'text', defaultValue: "Emily R., Mississauga" }
+    ],
+    css: `
+      .social-proof { padding: 7rem 0; background: var(--light); position: relative; }
+      .social-proof__header { text-align: center; max-width: 800px; margin: 0 auto 5rem; }
+      .social-proof__header h2 { font-size: clamp(2rem, 4vw, 2.75rem); color: var(--navy); margin-bottom: 2rem; font-weight: 600; }
+      
+      .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; max-width: 1200px; margin: 0 auto; }
+      .review-card { background: var(--white); padding: 3rem; border-radius: 8px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; height: 100%; transition: transform 0.3s ease; }
+      .review-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1); }
+      
+      .review-text { font-size: 1.05rem; line-height: 1.7; font-style: italic; color: var(--slate); margin-bottom: 2rem; opacity: 0.9; }
+      .review-author { font-size: 0.95rem; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.05em; border-top: 2px solid var(--orange); padding-top: 1rem; display: inline-block; }
+      
+      @media (max-width: 1024px) {
+        .reviews-grid { grid-template-columns: 1fr; gap: 2rem; }
+        .social-proof { padding: 5rem 0; }
+        .review-card { padding: 2.5rem; }
+      }
+    `,
+    renderHtml: (v) => `
+      <section class="social-proof">
+        <div class="container">
+          <div class="social-proof__header">
+            <h2>${v.title}</h2>
+          </div>
+          <div class="reviews-grid">
+            <div class="review-card">
+              <p class="review-text">"${v.review1_text}"</p>
+              <span class="review-author">${v.review1_name}</span>
+            </div>
+            <div class="review-card">
+              <p class="review-text">"${v.review2_text}"</p>
+              <span class="review-author">${v.review2_name}</span>
+            </div>
+            <div class="review-card">
+              <p class="review-text">"${v.review3_text}"</p>
+              <span class="review-author">${v.review3_name}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    `,
+    referenceHtml: `
+      <section class="social-proof">
+        <div class="container">
+          <div class="social-proof__header">
+            <h2>Client Experiences</h2>
+          </div>
+          <div class="reviews-grid">
+            <div class="review-card">
+              <p class="review-text">"Integrity Remodeling was a revelation. One team managed everything perfectly, from the initial design to the final cleanup."</p>
+              <span class="review-author">Sarah J., Oakville</span>
+            </div>
+            <div class="review-card">
+              <p class="review-text">"The attention to detail was incredible. They didn't just build a deck; they created an outdoor living room we never want to leave."</p>
+              <span class="review-author">Mark T., Burlington</span>
+            </div>
+            <div class="review-card">
+              <p class="review-text">"Professional, timely, and beautiful work. The unified design process made decision-making so much easier."</p>
+              <span class="review-author">Emily R., Mississauga</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    `
+  },
+  {
+    id: 'cta',
+    name: 'Pre-Footer CTA',
+    description: 'Conversion-focused module with clear call to action.',
+    fields: [
+      { id: 'h2', label: 'Heading', type: 'text', defaultValue: "Ready to Transform Your Home?" }
+    ],
+    css: `
+      .bottom-cta { padding: 8rem 0; text-align: center; background: white; border-top: 1px solid #eee; }
+      .bottom-cta h2 { font-size: 2.5rem; margin-bottom: 2rem; font-weight: 600; }
+    `,
+    renderHtml: (v) => `<section class="bottom-cta"><div class="container"><h2>${v.h2}</h2><a href="#" class="btn btn-navy">Schedule Consultation</a></div></section>`,
+    referenceHtml: `<section class="bottom-cta"><div class="container"><h2>Ready to Transform Your Home?</h2><a href="#" class="btn btn-navy">Schedule Consultation</a></div></section>`
+  },
+  {
+    id: 'contact',
+    name: 'Contact Form (Split)',
+    description: 'Lead generation form with contact info on side.',
+    fields: [
+      { id: 'h2', label: 'Heading', type: 'text', defaultValue: "Let's Start Your Conversation" },
+      { id: 'sub', label: 'Subtext', type: 'textarea', defaultValue: "Ready to discuss your project? Fill out the form below or call us directly." },
+      { id: 'phone', label: 'Phone', type: 'text', defaultValue: "(555) 123-4567" },
+      { id: 'email', label: 'Email', type: 'text', defaultValue: "hello@integrityremodeling.ca" },
+      { id: 'address', label: 'Address', type: 'textarea', defaultValue: "123 Builder Lane<br>Oakville, ON L6J 5A2" }
+    ],
+    css: `
+      .contact-section { padding: 6rem 0; background: var(--light); }
+      .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+      .contact-info h2 { font-size: 2.5rem; margin-bottom: 1.5rem; font-weight: 600; }
+      .contact-info p { font-size: 1.125rem; color: var(--gray); margin-bottom: 3rem; }
+      .contact-details { space-y-6; }
+      .contact-item { display: flex; align-items: start; gap: 1rem; margin-bottom: 1.5rem; }
+      .contact-item strong { color: var(--navy); display: block; margin-bottom: 0.25rem; }
+      .contact-item span { color: var(--gray); }
+      
+      .contact-form { background: var(--white); padding: 3rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+      .form-group { margin-bottom: 1.5rem; }
+      .form-group label { display: block; font-size: 0.875rem; font-weight: 600; color: var(--navy); margin-bottom: 0.5rem; }
+      .form-control { width: 100%; padding: 0.875rem; border: 1px solid #e2e8f0; border-radius: 4px; font-family: var(--sans); transition: 0.3s; }
+      .form-control:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 3px rgba(241, 73, 36, 0.1); }
+      
+      @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; gap: 3rem; } .contact-form { padding: 2rem; } }
+    `,
+    renderHtml: (v) => `<section id="contact" class="contact-section"><div class="container"><div class="contact-grid"><div class="contact-info"><h2>${v.h2}</h2><p>${v.sub}</p><div class="contact-details"><div class="contact-item"><strong>Phone</strong><span>${v.phone}</span></div><div class="contact-item"><strong>Email</strong><span>${v.email}</span></div><div class="contact-item"><strong>Studio</strong><span>${v.address}</span></div></div></div><div class="contact-form"><div class="form-group"><label>Name</label><input type="text" class="form-control" placeholder="Your Name"></div><div class="form-group"><label>Email</label><input type="email" class="form-control" placeholder="email@address.com"></div><div class="form-group"><label>Project Details</label><textarea class="form-control" rows="4" placeholder="Tell us about your home..."></textarea></div><button class="btn btn-navy" style="width: 100%;">Send Message</button></div></div></div></section>`,
+    referenceHtml: `<section id="contact" class="contact-section"><div class="container"><div class="contact-grid"><div class="contact-info"><h2>Let's Start Your Conversation</h2><p>Ready to discuss your project? Fill out the form below or call us directly.</p><div class="contact-details"><div class="contact-item"><strong>Phone</strong><span>(555) 123-4567</span></div><div class="contact-item"><strong>Email</strong><span>hello@integrityremodeling.ca</span></div><div class="contact-item"><strong>Studio</strong><span>123 Builder Lane<br>Oakville, ON L6J 5A2</span></div></div></div><div class="contact-form"><div class="form-group"><label>Name</label><input type="text" class="form-control" placeholder="Your Name"></div><div class="form-group"><label>Email</label><input type="email" class="form-control" placeholder="email@address.com"></div><div class="form-group"><label>Project Details</label><textarea class="form-control" rows="4" placeholder="Tell us about your home..."></textarea></div><button class="btn btn-navy" style="width: 100%;">Send Message</button></div></div></div></section>`
+  }
+];
