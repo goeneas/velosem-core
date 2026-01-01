@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { TemplateSection } from '../types';
+import { TemplateSection } from '../data/types';
 
 interface TemplateCardProps {
   template: TemplateSection;
