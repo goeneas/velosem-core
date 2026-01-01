@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => {
     root: 'demo',
     server: {
       port: 3000,
+      strictPort: true,  // Will error if port 3000 is not available
       host: '0.0.0.0',
     },
     plugins: [react()],

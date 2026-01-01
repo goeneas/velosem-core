@@ -57,6 +57,7 @@ const PreviewFrame: React.FC<PreviewFrameProps> = ({ html, css, width = 1440 }) 
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
         <style>
           /* Base Styles for the Preview Context */
           html { 
@@ -132,22 +133,21 @@ const PreviewFrame: React.FC<PreviewFrameProps> = ({ html, css, width = 1440 }) 
     </html>
   `, [html, css, width]);
 
-  const scale = currentWidth > 0 ? currentWidth / width : 1;
+  const scale = currentWidth > 0 ? Math.min(currentWidth / width, 1) : 1;
   const scaledHeight = Math.ceil(contentHeight * scale);
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className="relative w-full border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm"
-      style={{ height: `${scaledHeight}px` }}
+      className="relative w-full border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm mx-auto"
+      style={{ height: `${scaledHeight}px`, maxWidth: `${width}px` }}
     >
-      <div 
-        className="absolute top-0 left-0"
-        style={{ 
-          width: `${width}px`, 
+      <div
+        className="origin-top-left"
+        style={{
+          width: `${width}px`,
           height: `${contentHeight}px`,
           transform: `scale(${scale})`,
-          transformOrigin: 'top left'
         }}
       >
         <iframe

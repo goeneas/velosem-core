@@ -8,6 +8,7 @@ import {
   ConfirmationModal
 } from '@velosem/core';
 import { useSavedPages } from './hooks/useSavedPages';
+import { useProjects } from './hooks/useProjects';
 
 
 type ViewTab = 'content' | 'styles' | 'export';
@@ -88,7 +89,8 @@ const App: React.FC = () => {
     loadSections
   } = editor;
 
-  const { savedPages, savePage, updatePageMeta, updatePageContent, deletePage, importPages } = useSavedPages();
+  const { savedPages, savePage, updatePageMeta, updatePageContent, deletePage, importPages, getPagesByProject, deletePagesByProject } = useSavedPages();
+  const { projects, createProject, updateProject, deleteProject, getProject } = useProjects();
   const [saveTitle, setSaveTitle] = React.useState('');
   const [saveNote, setSaveNote] = React.useState('');
 
@@ -114,7 +116,11 @@ const App: React.FC = () => {
   // Let's create a local state for the Viewport Mode.
 
   const [viewportMode, setViewportMode] = React.useState<'desktop' | 'mobile'>('desktop');
-  const [appTab, setAppTab] = React.useState<'editor' | 'preview' | 'export' | 'saved'>('editor');
+  const [viewMode, setViewMode] = React.useState<'projects' | 'pages' | 'templates'>('projects');
+  const [appTab, setAppTab] = React.useState<'editor' | 'preview' | 'export'>('editor');
+
+  // Project-specific state
+  const [activeProjectId, setActiveProjectId] = React.useState<string | null>(null);
 
   // Accordion state
   const [activeGroupIndex, setActiveGroupIndex] = React.useState(-1);
@@ -474,13 +480,12 @@ const App: React.FC = () => {
                                 </label>
                               </div>
                             ) : (
-                              <input /* Text/URL inputs for grouped fields usually simpler */
+                              <input
                                 type={field.type === 'url' ? 'url' : 'text'}
                                 id={`field-${field.id}`}
                                 value={activeSection.values[field.id]}
                                 onChange={e => handleFieldChange(field.id, e.target.value)}
                                 className={`w-full ${field.type === 'textarea' ? 'min-h-[100px]' : 'h-12'} p-4 bg-slate-50 border border-transparent rounded-xl focus:outline-none focus:bg-white focus:border-slate-200 focus:shadow-inner font-mono text-[13px] transition-all text-black`}
-                                as={field.type === 'textarea' ? 'textarea' : 'input'}
                               />
                             )}
                           </div>
@@ -719,7 +724,7 @@ const App: React.FC = () => {
                       <input
                         className="text-lg font-bold text-slate-800 bg-transparent hover:bg-slate-50 focus:bg-slate-50 border border-transparent hover:border-slate-200 focus:border-slate-200 rounded px-2 -ml-2 w-full transition-all"
                         value={page.title}
-                        onChange={(e) => updatePageMeta(page.id, e.target.value, page.note)}
+                        onChange={(e) => updatePageMeta(page.id, e.target.value, page.notes)}
                       />
                       <div className="flex items-center gap-4 text-xs text-slate-400 font-mono">
                         <span>{new Date(page.createdAt).toLocaleDateString()}</span>
@@ -730,7 +735,7 @@ const App: React.FC = () => {
                     </div>
                     <input
                       className="text-sm text-slate-500 w-full bg-transparent hover:bg-slate-50 focus:bg-slate-50 border border-transparent hover:border-slate-200 focus:border-slate-200 rounded px-2 -ml-2 transition-all"
-                      value={page.note}
+                      value={page.notes}
                       onChange={(e) => updatePageMeta(page.id, page.title, e.target.value)}
                       placeholder="Add a note..."
                     />
@@ -748,7 +753,7 @@ const App: React.FC = () => {
                             loadSections(page.sections);
                             setPageTitle(page.title);
                             setActivePageId(page.id);
-                            setSaveNote(page.note || ''); // Set the note for editing
+                            setSaveNote(page.notes || ''); // Set the note for editing
                             setAppTab('editor');
                             setConfirmModal(prev => ({ ...prev, isOpen: false }));
                           }
@@ -801,7 +806,7 @@ const App: React.FC = () => {
       <aside className="fixed left-0 top-0 bottom-0 w-[340px] bg-white border-r border-slate-100 flex flex-col z-40">
         <div className="p-8 border-b border-slate-100">
           <h1 className="text-2xl font-black text-[#0F172A] tracking-tighter">VELOSEM</h1>
-          <p className="text-[10px] font-bold text-[#f14924] uppercase tracking-[0.3em] -mt-1">Manager v2</p>
+          <p className="text-[10px] font-bold text-[#f14924] uppercase tracking-[0.3em] -mt-1">Core v2</p>
         </div>
 
         <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8">
@@ -901,28 +906,184 @@ const App: React.FC = () => {
       <main className="pl-[340px] flex-1">
         {/* HEADER */}
         <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-100 px-12 py-4 flex items-center justify-between">
+          {/* Main Mode Switcher */}
           <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-lg">
-            <button onClick={() => setAppTab('editor')} className={`px-6 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${appTab === 'editor' ? 'bg-white shadow text-[#0F172A]' : 'text-slate-400 hover:text-slate-600'} `}>Editor</button>
-            <button onClick={() => setAppTab('preview')} className={`px-6 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${appTab === 'preview' ? 'bg-white shadow text-[#0F172A]' : 'text-slate-400 hover:text-slate-600'} `}>Full Preview</button>
-            <button onClick={() => setAppTab('export')} className={`px-6 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${appTab === 'export' ? 'bg-white shadow text-[#0F172A]' : 'text-slate-400 hover:text-slate-600'} `}>Export / Data</button>
-            <div className="w-px h-6 bg-slate-200 mx-2"></div>
-            <button onClick={() => setAppTab('saved')} className={`px-6 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${appTab === 'saved' ? 'bg-white shadow text-[#0F172A]' : 'text-slate-400 hover:text-slate-600'} `}>Saved Pages ({savedPages.length})</button>
+            <button onClick={() => setViewMode('projects')} className={`px-6 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${viewMode === 'projects' ? 'bg-white shadow text-[#0F172A]' : 'text-slate-400 hover:text-slate-600'} `}>Projects</button>
+            <button onClick={() => setViewMode('pages')} className={`px-6 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${viewMode === 'pages' ? 'bg-white shadow text-[#0F172A]' : 'text-slate-400 hover:text-slate-600'} `}>Page Designer</button>
+            <button onClick={() => setViewMode('templates')} className={`px-6 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${viewMode === 'templates' ? 'bg-white shadow text-indigo-600' : 'text-slate-400 hover:text-slate-600'} `}>Templates</button>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="text-right">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Editing Page</p>
-              <p className="text-sm font-bold text-slate-800">{pageTitle}</p>
+          {/* Sub-navigation for Pages mode */}
+          {viewMode === 'pages' && (
+            <div className="flex items-center gap-2 bg-slate-50 p-1 rounded-lg">
+              <button onClick={() => setAppTab('editor')} className={`px-4 py-1.5 rounded text-[10px] font-bold uppercase tracking-wider transition-all ${appTab === 'editor' ? 'bg-white shadow text-[#0F172A]' : 'text-slate-400 hover:text-slate-600'} `}>Editor</button>
+              <button onClick={() => setAppTab('preview')} className={`px-4 py-1.5 rounded text-[10px] font-bold uppercase tracking-wider transition-all ${appTab === 'preview' ? 'bg-white shadow text-[#0F172A]' : 'text-slate-400 hover:text-slate-600'} `}>Preview</button>
+              <button onClick={() => setAppTab('export')} className={`px-4 py-1.5 rounded text-[10px] font-bold uppercase tracking-wider transition-all ${appTab === 'export' ? 'bg-white shadow text-[#0F172A]' : 'text-slate-400 hover:text-slate-600'} `}>Export</button>
             </div>
+          )}
+
+          <div className="flex items-center gap-3">
+            {viewMode === 'projects' && (
+              <div className="text-right">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Projects</p>
+                <p className="text-sm font-bold text-slate-800">{projects.length} Total</p>
+              </div>
+            )}
+            {viewMode === 'pages' && (
+              <div className="text-right">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Editing Page</p>
+                <p className="text-sm font-bold text-slate-800">{pageTitle}</p>
+              </div>
+            )}
           </div>
         </header>
 
         {/* CONTENT AREA */}
         <div className="p-12 max-w-[1600px] mx-auto min-h-[calc(100vh-80px)]">
-          {appTab === 'editor' && renderEditor()}
-          {appTab === 'preview' && renderFullPreview()}
-          {appTab === 'export' && renderExport()}
-          {appTab === 'saved' && renderSavedPages()}
+          {/* PROJECTS VIEW */}
+          {viewMode === 'projects' && (
+            <div>
+              <div className="mb-10">
+                <h1 className="text-3xl font-black text-[#0F172A] mb-2 tracking-tight">Project Library</h1>
+                <p className="text-slate-500">Manage your website projects.</p>
+              </div>
+
+              {projects.length === 0 ? (
+                <div className="p-8 border-2 border-dashed border-slate-200 rounded-2xl text-center">
+                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Ready to Build</h4>
+                  <p className="text-sm text-slate-400 mb-6">No projects yet. Create your first project to get started.</p>
+                  <button
+                    onClick={() => {
+                      const newId = createProject('Untitled Project');
+                      setActiveProjectId(newId);
+                      setViewMode('pages');
+                    }}
+                    className="px-6 py-3 bg-[#f14924] hover:bg-[#d13d1a] text-white text-xs font-black uppercase rounded-xl transition-all shadow-lg shadow-[#f14924]/20"
+                  >
+                    + Create First Project
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {projects.map(project => {
+                    const projectPages = getPagesByProject(project.id);
+                    const completedCount = projectPages.filter(p => p.sections?.every(s => s.status === 'completed')).length;
+                    const inProgressCount = projectPages.filter(p => p.sections?.some(s => s.status === 'in-progress')).length;
+                    const justCreatedCount = projectPages.length - completedCount - inProgressCount;
+
+                    return (
+                      <div
+                        key={project.id}
+                        className="bg-white border border-slate-100 rounded-2xl p-6 hover:shadow-lg transition-all group"
+                      >
+                        <div className="flex justify-between items-start mb-3">
+                          <div className="flex-1 space-y-1">
+                            <input
+                              type="text"
+                              value={project.title}
+                              onChange={(e) => updateProject(project.id, { title: e.target.value })}
+                              className="font-bold text-lg text-[#0F172A] bg-transparent border-b border-transparent hover:border-slate-200 focus:border-[#f14924] focus:outline-none w-full transition-colors"
+                              placeholder="Project Title"
+                            />
+                            <input
+                              type="text"
+                              value={project.domain}
+                              onChange={(e) => updateProject(project.id, { domain: e.target.value })}
+                              className="text-xs text-slate-400 bg-transparent border-b border-transparent hover:border-slate-200 focus:border-[#f14924] focus:outline-none w-full transition-colors"
+                              placeholder="example.com"
+                            />
+                          </div>
+                          <div className="flex items-center gap-2 ml-2">
+                            <button
+                              onClick={() => {
+                                setActiveProjectId(project.id);
+                                setViewMode('pages');
+                              }}
+                              className="w-8 h-8 rounded-lg bg-[#f14924] hover:bg-[#d13d1a] text-white flex items-center justify-center transition-all shadow-sm"
+                              title="Open Project"
+                            >
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                            </button>
+                            <button
+                              onClick={() => {
+                                setConfirmModal({
+                                  isOpen: true,
+                                  title: 'Delete Project?',
+                                  message: `Are you sure you want to delete "${project.title}"? All pages in this project will also be deleted.`,
+                                  isDestructive: true,
+                                  action: () => {
+                                    deletePagesByProject(project.id);
+                                    deleteProject(project.id);
+                                    setConfirmModal(prev => ({ ...prev, isOpen: false }));
+                                  }
+                                });
+                              }}
+                              className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-red-50 text-slate-400 hover:text-red-500 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
+                              title="Delete Project"
+                            >
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                          </div>
+                        </div>
+                        <textarea
+                          value={project.notes}
+                          onChange={(e) => updateProject(project.id, { notes: e.target.value })}
+                          className="text-sm text-slate-500 bg-transparent border border-transparent hover:border-slate-200 focus:border-[#f14924] focus:outline-none w-full mb-4 resize-none rounded-lg p-1 -ml-1 transition-colors"
+                          placeholder="Add a description..."
+                          rows={2}
+                        />
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-xs font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded">{projectPages.length} Pages</span>
+                          {justCreatedCount > 0 && <span className="text-[10px] font-bold bg-blue-50 text-blue-600 px-2 py-1 rounded">{justCreatedCount} New</span>}
+                          {inProgressCount > 0 && <span className="text-[10px] font-bold bg-amber-50 text-amber-600 px-2 py-1 rounded">{inProgressCount} In Progress</span>}
+                          {completedCount > 0 && <span className="text-[10px] font-bold bg-emerald-50 text-emerald-600 px-2 py-1 rounded">{completedCount} Complete</span>}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  <button
+                    onClick={() => {
+                      const newId = createProject('Untitled Project');
+                      setActiveProjectId(newId);
+                    }}
+                    className="border-2 border-dashed border-slate-200 rounded-2xl p-6 hover:border-[#f14924] hover:bg-[#f14924]/5 transition-all flex flex-col items-center justify-center min-h-[200px] group"
+                  >
+                    <span className="text-3xl text-slate-300 group-hover:text-[#f14924] mb-2">+</span>
+                    <span className="text-xs font-bold text-slate-400 group-hover:text-[#f14924] uppercase tracking-wider">New Project</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* PAGES VIEW */}
+          {viewMode === 'pages' && (
+            <>
+              {appTab === 'editor' && renderEditor()}
+              {appTab === 'preview' && renderFullPreview()}
+              {appTab === 'export' && renderExport()}
+            </>
+          )}
+
+          {/* TEMPLATES VIEW */}
+          {viewMode === 'templates' && (
+            <div>
+              <div className="mb-10">
+                <h1 className="text-3xl font-black text-[#0F172A] mb-2 tracking-tight">Templates</h1>
+                <p className="text-slate-500">Browse and manage section templates.</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {templates.map(t => (
+                  <div key={t.id} className="bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-all">
+                    <h3 className="font-bold text-lg text-slate-800 mb-2">{t.name}</h3>
+                    <p className="text-sm text-slate-500 mb-4">{t.description}</p>
+                    <div className="text-xs text-slate-400">{t.fields.length} editable fields</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </main>
 

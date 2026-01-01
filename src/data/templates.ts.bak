@@ -47,9 +47,135 @@ export const templates: TemplateSection[] = [
     referenceHtml: `<section id="top" class="hero-section"><div class="hero-section__content-area"><div class="hero-section__navy-box"><h1>Unified Design.<br>Masterful Build.</h1><p>Stop juggling unreliable contractors. We orchestrate a complete, cohesive transformation for your home—combining siding, decks, and architectural details into a single vision.</p><div class="hero-section__actions"><a href="#contact" class="btn btn-white">START YOUR TRANSFORMATION</a></div></div></div><div class="hero-section__image-area"><img src="${PLACEHOLDER_IMG}" alt="Architectural Exterior Design" class="hero-section__img" fetchpriority="high"></div></section>`
   },
 
+  <section class="seo-article-wrap" >
+  <!--Hero Split-- >
+  <div class="seo-hero" >
+  <div class="seo-hero__content" >
+  <div class="seo-box" >
+  <h1>${ v.title } </h1>
+  < div class= "seo-facts" >
+  <h2>${ v.facts_title } </h2>
+  <ul>
+                  ${ v.facts_list }
+  </ul>
+  </div>
+  </div>
+  </div>
+
+  < div class= "seo-hero__img-area" >
+  ${ v.img_link ? `<a href="${v.img_link}" ${v.img_new_tab === 'true' ? 'target="_blank" rel="noopener noreferrer"' : ''} style="display:block;height:100%;">` : '' }
+  < figure style = "margin:0;height:100%;position:relative;" >
+  <img src="${v.img}" alt = "${v.img_alt}" title = "${v.img_title}" class= "seo-hero__img" decoding = "async" >
+  ${ v.img_caption ? `<figcaption style="position:absolute;bottom:0;left:0;width:100%;background:rgba(0,0,0,0.6);color:white;padding:0.5rem;font-size:0.85rem;">${v.img_caption}</figcaption>` : '' }
+  </figure>
+            ${ v.img_link ? `</a>` : '' }
+  </div>
+  </div>
+
+  < div class= "toc-container" > <div class="toc-box" > <div class="toc-header" id = "toc-toggle" > <h3>Table of Contents < /h3><svg class="toc-icon rotate" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" / > </svg></div > <div class="toc-content" id = "toc-body" style = "display: none;" > <ul class="toc-list-dynamic" id = "toc-list" > </ul></div > </div></div >
+  <script>
+  (function () {
+    // Function to run TOC logic
+    const initTOC = () => {
+      const tocList = document.getElementById('toc-list');
+      const tocToggle = document.getElementById('toc-toggle');
+      const tocBody = document.getElementById('toc-body');
+      const tocIcon = tocToggle.querySelector('.toc-icon');
+
+      if (!tocList) return;
+
+      // Clear any existing items (safeguard)
+      tocList.innerHTML = '';
+
+      // Select all H2 and H3, excluding those inside the SEO header itself if desired
+      // For now, we select all content headers in the page body
+      // Excluding .seo-box headers (like "Key Takeaways") and the TOC header itself
+      const headers = document.querySelectorAll('h2, h3');
+
+      headers.forEach((header, index) => {
+        // Skip headers inside the SEO Box (e.g. Key Takeaways) and TOC box
+        if (header.closest('.seo-box') || header.closest('.toc-box')) return;
+
+        // Ensure header has an ID
+        if (!header.id) {
+          header.id = 'section-' + index;
+        }
+
+        const li = document.createElement('li');
+        if (header.tagName.toLowerCase() === 'h3') {
+          li.classList.add('toc-h3');
+        }
+
+        const link = document.createElement('a');
+        link.href = '#' + header.id;
+        link.textContent = header.textContent;
+
+        li.appendChild(link);
+        tocList.appendChild(li);
+      });
+
+      // Toggle functionality
+      if (tocToggle) {
+        // Remove old listener if any (cleaner not needed for simple script insertion)
+        tocToggle.onclick = () => {
+          if (tocBody.style.display === 'none') {
+            tocBody.style.display = 'block';
+            tocIcon.classList.remove('rotate');
+          } else {
+            tocBody.style.display = 'none';
+            tocIcon.classList.add('rotate');
+          }
+        };
+      }
+    };
+
+    // Run on load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initTOC);
+    } else {
+      initTOC();
+    }
+  })();
+</script>
+  </section>
+    `,
+    referenceHtml: `
+  < section class="seo-article-wrap" >
+    <div class="seo-hero" >
+      <div class="seo-hero__content" >
+        <div class="seo-box" >
+          <h1>The Ultimate Guide to Custom Deck Features </h1>
+            < div class="seo-facts" >
+              <h2>Key Takeaways </h2>
+                < ul >
+                <li>Proper planning prevents costly delays.</li>
+                  < li > Material choice affects longevity and maintenance.</li>
+                    < li > Permits are essential for structural work.</li>
+                      </ul>
+                      </div>
+                      </div>
+                      </div>
+                      < div class= "seo-hero__img-area" >
+                      <img src= "${PLACEHOLDER_IMG}" alt = "Deck Features" class="seo-hero__img" >
+                        </div>
+                        </div>
+                        < div class="toc-container" >
+                          <div class="toc-box" >
+                            <div class="toc-header" >
+                              <h3>Table of Contents </h3>
+                                <span>▼</span>
+                                  </div>
+                                  < div class="toc-content" >
+                                    <!--Placeholder for WP Plugin-- >
+                                      </div>
+                                      </div>
+                                      </div>
+                                      </section>
+                                        `
+  },
   {
     id: 'seo-article',
-    name: 'SEO Article',
+    name: 'SEO Article (Full)',
     description: 'Complete article with Header, Table of Contents, and Rich Text Body.',
     fields: [
       { id: 'title', label: 'Article Title', type: 'textarea', defaultValue: "The Ultimate Guide to Custom Deck Features" },
@@ -118,23 +244,23 @@ export const templates: TemplateSection[] = [
       <div class="seo-hero" >
         <div class="seo-hero__content" >
           <div class="seo-box" >
-            <h1>${v.title} </h1>
+            <h1>${ v.title } </h1>
               < div class="seo-facts" >
-                <h2>${v.facts_title} </h2>
+                <h2>${ v.facts_title } </h2>
                   <ul>
-                  ${v.facts_list}
+                  ${ v.facts_list }
 </ul>
   </div>
   </div>
   </div>
 
   < div class="seo-hero__img-area" >
-    ${v.img_link ? `<a href="${v.img_link}" ${v.img_new_tab === 'true' ? 'target="_blank" rel="noopener noreferrer"' : ''} style="display:block;height:100%;">` : ''}
+    ${ v.img_link ? `<a href="${v.img_link}" ${v.img_new_tab === 'true' ? 'target="_blank" rel="noopener noreferrer"' : ''} style="display:block;height:100%;">` : '' }
 <figure style="margin:0;height:100%;position:relative;" >
   <img src="${v.img}" alt = "${v.img_alt}" title = "${v.img_title}" class="seo-hero__img" decoding = "async" >
-    ${v.img_caption ? `<figcaption style="position:absolute;bottom:0;left:0;width:100%;background:rgba(0,0,0,0.6);color:white;padding:0.5rem;font-size:0.85rem;">${v.img_caption}</figcaption>` : ''}
+    ${ v.img_caption ? `<figcaption style="position:absolute;bottom:0;left:0;width:100%;background:rgba(0,0,0,0.6);color:white;padding:0.5rem;font-size:0.85rem;">${v.img_caption}</figcaption>` : '' }
 </figure>
-            ${v.img_link ? `</a>` : ''}
+            ${ v.img_link ? `</a>` : '' }
 </div>
   </div>
 
@@ -142,7 +268,7 @@ export const templates: TemplateSection[] = [
 
     <!--Article Body-- >
       <div class="article-body" >
-        ${v.body_content}
+        ${ v.body_content }
 </div>
 
   <script>
@@ -296,9 +422,9 @@ export const templates: TemplateSection[] = [
   < section class="roadmap-section" >
     <div class="container" >
       <div class="roadmap-header" >
-        <span>${v.pre} </span>
-          < h2 > ${v.title} </h2>
-            < p > ${v.intro} </p>
+        <span>${ v.pre } </span>
+          < h2 > ${ v.title } </h2>
+            < p > ${ v.intro } </p>
               </div>
 
               < div class="roadmap-container" >
@@ -308,8 +434,8 @@ export const templates: TemplateSection[] = [
                       </div>
                       < div class="step-content" >
                         <span class="step-label" > Step 01 </span>
-                          < h3 > ${v.s1t} </h3>
-                            < p > ${v.s1d} </p>
+                          < h3 > ${ v.s1t } </h3>
+                            < p > ${ v.s1d } </p>
                               </div>
                               </div>
 
@@ -319,8 +445,8 @@ export const templates: TemplateSection[] = [
                                     </div>
                                     < div class="step-content" >
                                       <span class="step-label" > Step 02 </span>
-                                        < h3 > ${v.s2t} </h3>
-                                          < p > ${v.s2d} </p>
+                                        < h3 > ${ v.s2t } </h3>
+                                          < p > ${ v.s2d } </p>
                                             </div>
                                             </div>
 
@@ -330,8 +456,8 @@ export const templates: TemplateSection[] = [
                                                   </div>
                                                   < div class="step-content" >
                                                     <span class="step-label" > Step 03 </span>
-                                                      < h3 > ${v.s3t} </h3>
-                                                        < p > ${v.s3d} </p>
+                                                      < h3 > ${ v.s3t } </h3>
+                                                        < p > ${ v.s3d } </p>
                                                           </div>
                                                           </div>
 
@@ -341,8 +467,8 @@ export const templates: TemplateSection[] = [
                                                                 </div>
                                                                 < div class="step-content" >
                                                                   <span class="step-label" > Step 04 </span>
-                                                                    < h3 > ${v.s4t} </h3>
-                                                                      < p > ${v.s4d} </p>
+                                                                    < h3 > ${ v.s4t } </h3>
+                                                                      < p > ${ v.s4d } </p>
                                                                         </div>
                                                                         </div>
 
@@ -352,14 +478,14 @@ export const templates: TemplateSection[] = [
                                                                               </div>
                                                                               < div class="step-content" >
                                                                                 <span class="step-label" > Step 05 </span>
-                                                                                  < h3 > ${v.s5t} </h3>
-                                                                                    < p > ${v.s5d} </p>
+                                                                                  < h3 > ${ v.s5t } </h3>
+                                                                                    < p > ${ v.s5d } </p>
                                                                                       </div>
                                                                                       </div>
                                                                                       </div>
                                                                                       </div>
                                                                                       </section>`,
-    referenceHtml: `
+referenceHtml: `
 <section class="roadmap-section">
   <div class="container">
     <div class="roadmap-header">
@@ -423,17 +549,17 @@ export const templates: TemplateSection[] = [
   </div>
 </section>`
   },
-  {
-    id: 'trust',
+{
+  id: 'trust',
     name: 'Value Props / Trust Indicators',
-    description: 'High-visibility trust grid optimized for mobile readability.',
-    fields: [
-      { id: 'title', label: 'Section Title', type: 'text', defaultValue: "Why Choose Integrity" },
-      { id: 'sub', label: 'Section Subtext', type: 'textarea', defaultValue: "Building trust through transparency and craftsmanship." },
-      { id: 't1', label: 'Prop 1 Title', type: 'text', defaultValue: "No Financial Surprises" },
-      { id: 'd1', label: 'Prop 1 Desc', type: 'textarea', defaultValue: "Tired of unforeseen costs? Our detailed, fixed-price proposals mean your budget is respected from start to finish." }
-    ],
-    css: `
+      description: 'High-visibility trust grid optimized for mobile readability.',
+        fields: [
+          { id: 'title', label: 'Section Title', type: 'text', defaultValue: "Why Choose Integrity" },
+          { id: 'sub', label: 'Section Subtext', type: 'textarea', defaultValue: "Building trust through transparency and craftsmanship." },
+          { id: 't1', label: 'Prop 1 Title', type: 'text', defaultValue: "No Financial Surprises" },
+          { id: 'd1', label: 'Prop 1 Desc', type: 'textarea', defaultValue: "Tired of unforeseen costs? Our detailed, fixed-price proposals mean your budget is respected from start to finish." }
+        ],
+          css: `
       .value-props { padding: 5rem 0; background: var(--light); }
       .value-props__header { text-align: center; max-width: 800px; margin: 0 auto 4rem; }
       .value-props__header h2 { font-size: clamp(2rem, 4vw, 2.75rem); color: var(--navy); margin-bottom: 1.5rem; font-weight: 600; }
@@ -446,42 +572,42 @@ export const templates: TemplateSection[] = [
       .value-props__card p { font-size: 1rem; color: var(--gray); line-height: 1.6; }
       @media (max-width: 640px) { .value-props { padding: 4rem 0; } .value-props__grid { grid-template-columns: 1fr; gap: 1.5rem; } .value-props__card { padding: 2rem; } }
     `,
-    renderHtml: (v) => `<section id="why-choose-us" class="value-props"><div class="container"><div class="value-props__header"><h2>${v.title}</h2><p>${v.sub}</p></div><div class="value-props__grid"><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>${v.t1}</h3><p>${v.d1}</p></div><div class="value-props__card" style="border-top-color: var(--navy);"><div class="value-props__icon" style="background: #f1f5f9; color: var(--navy);">${SVG_ICONS.check}</div><h3>Heritage of Quality</h3><p>Backed by the legacy of The Deck Store (est. 1986), we bring decades of stability and craftsmanship to every project.</p></div><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>A Process You Can Trust</h3><p>We replace chaos with clarity. You get a single dedicated project manager and a consistent team from start to finish.</p></div></div></div></section>`,
-    referenceHtml: `<section id="why-choose-us" class="value-props"><div class="container"><div class="value-props__header"><h2>Why Choose Integrity</h2><p>Building trust through transparency and craftsmanship.</p></div><div class="value-props__grid"><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>No Financial Surprises</h3><p>Tired of unforeseen costs? Our detailed, fixed-price proposals mean your budget is respected from start to finish.</p></div><div class="value-props__card" style="border-top-color: var(--navy);"><div class="value-props__icon" style="background: #f1f5f9; color: var(--navy);">${SVG_ICONS.check}</div><h3>Heritage of Quality</h3><p>Backed by the legacy of The Deck Store (est. 1986), we bring decades of stability and craftsmanship to every project.</p></div><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>A Process You Can Trust</h3><p>We replace chaos with clarity. You get a single dedicated project manager and a consistent team from start to finish.</p></div></div></div></section>`
-  },
-  {
-    id: 'services',
+            renderHtml: (v) => `<section id="why-choose-us" class="value-props"><div class="container"><div class="value-props__header"><h2>${v.title}</h2><p>${v.sub}</p></div><div class="value-props__grid"><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>${v.t1}</h3><p>${v.d1}</p></div><div class="value-props__card" style="border-top-color: var(--navy);"><div class="value-props__icon" style="background: #f1f5f9; color: var(--navy);">${SVG_ICONS.check}</div><h3>Heritage of Quality</h3><p>Backed by the legacy of The Deck Store (est. 1986), we bring decades of stability and craftsmanship to every project.</p></div><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>A Process You Can Trust</h3><p>We replace chaos with clarity. You get a single dedicated project manager and a consistent team from start to finish.</p></div></div></div></section>`,
+              referenceHtml: `<section id="why-choose-us" class="value-props"><div class="container"><div class="value-props__header"><h2>Why Choose Integrity</h2><p>Building trust through transparency and craftsmanship.</p></div><div class="value-props__grid"><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>No Financial Surprises</h3><p>Tired of unforeseen costs? Our detailed, fixed-price proposals mean your budget is respected from start to finish.</p></div><div class="value-props__card" style="border-top-color: var(--navy);"><div class="value-props__icon" style="background: #f1f5f9; color: var(--navy);">${SVG_ICONS.check}</div><h3>Heritage of Quality</h3><p>Backed by the legacy of The Deck Store (est. 1986), we bring decades of stability and craftsmanship to every project.</p></div><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>A Process You Can Trust</h3><p>We replace chaos with clarity. You get a single dedicated project manager and a consistent team from start to finish.</p></div></div></div></section>`
+},
+{
+  id: 'services',
     name: 'Service Categories Grid',
-    description: 'Service overview with hover effects and clean typography.',
-    fields: [
-      { id: 'h2', label: 'Section Heading', type: 'text', defaultValue: "The Elements of Your Transformation" },
-      { id: 'sub', label: 'Section Subtext', type: 'text', defaultValue: "We don't just sell services; we architect cohesive exteriors where every detail works in harmony." },
+      description: 'Service overview with hover effects and clean typography.',
+        fields: [
+          { id: 'h2', label: 'Section Heading', type: 'text', defaultValue: "The Elements of Your Transformation" },
+          { id: 'sub', label: 'Section Subtext', type: 'text', defaultValue: "We don't just sell services; we architect cohesive exteriors where every detail works in harmony." },
 
-      // Service 1
-      { id: 's1_title', label: 'Title', type: 'text', defaultValue: "Siding Solutions", group: 'Service 1' },
-      { id: 's1_desc', label: 'Description', type: 'textarea', defaultValue: "Transform curb appeal and energy efficiency with premium materials masterfully installed for longevity.", group: 'Service 1' },
-      { id: 's1_img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Service 1' },
-      { id: 's1_img_alt', label: 'Alt Text', type: 'text', defaultValue: "Siding", group: 'Service 1' },
-      { id: 's1_link', label: 'Link URL', type: 'text', defaultValue: "/services/siding", group: 'Service 1' },
-      { id: 's1_btn', label: 'Button Text', type: 'text', defaultValue: "View Siding Options", group: 'Service 1' },
+          // Service 1
+          { id: 's1_title', label: 'Title', type: 'text', defaultValue: "Siding Solutions", group: 'Service 1' },
+          { id: 's1_desc', label: 'Description', type: 'textarea', defaultValue: "Transform curb appeal and energy efficiency with premium materials masterfully installed for longevity.", group: 'Service 1' },
+          { id: 's1_img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Service 1' },
+          { id: 's1_img_alt', label: 'Alt Text', type: 'text', defaultValue: "Siding", group: 'Service 1' },
+          { id: 's1_link', label: 'Link URL', type: 'text', defaultValue: "/services/siding", group: 'Service 1' },
+          { id: 's1_btn', label: 'Button Text', type: 'text', defaultValue: "View Siding Options", group: 'Service 1' },
 
-      // Service 2
-      { id: 's2_title', label: 'Title', type: 'text', defaultValue: "Custom Decks", group: 'Service 2' },
-      { id: 's2_desc', label: 'Description', type: 'textarea', defaultValue: "Leveraging our heritage to build stunning composite and wood decks that anchor your outdoor living space.", group: 'Service 2' },
-      { id: 's2_img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Service 2' },
-      { id: 's2_img_alt', label: 'Alt Text', type: 'text', defaultValue: "Decks", group: 'Service 2' },
-      { id: 's2_link', label: 'Link URL', type: 'text', defaultValue: "/services/decks", group: 'Service 2' },
-      { id: 's2_btn', label: 'Button Text', type: 'text', defaultValue: "View Deck Gallery", group: 'Service 2' },
+          // Service 2
+          { id: 's2_title', label: 'Title', type: 'text', defaultValue: "Custom Decks", group: 'Service 2' },
+          { id: 's2_desc', label: 'Description', type: 'textarea', defaultValue: "Leveraging our heritage to build stunning composite and wood decks that anchor your outdoor living space.", group: 'Service 2' },
+          { id: 's2_img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Service 2' },
+          { id: 's2_img_alt', label: 'Alt Text', type: 'text', defaultValue: "Decks", group: 'Service 2' },
+          { id: 's2_link', label: 'Link URL', type: 'text', defaultValue: "/services/decks", group: 'Service 2' },
+          { id: 's2_btn', label: 'Button Text', type: 'text', defaultValue: "View Deck Gallery", group: 'Service 2' },
 
-      // Service 3
-      { id: 's3_title', label: 'Title', type: 'text', defaultValue: "Porches & Porticos", group: 'Service 3' },
-      { id: 's3_desc', label: 'Description', type: 'textarea', defaultValue: "Create a grand, welcoming entrance. We design custom porches that perfectly complement your architecture.", group: 'Service 3' },
-      { id: 's3_img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Service 3' },
-      { id: 's3_img_alt', label: 'Alt Text', type: 'text', defaultValue: "Porches", group: 'Service 3' },
-      { id: 's3_link', label: 'Link URL', type: 'text', defaultValue: "/services/porches", group: 'Service 3' },
-      { id: 's3_btn', label: 'Button Text', type: 'text', defaultValue: "See Porch Designs", group: 'Service 3' },
-    ],
-    css: `
+          // Service 3
+          { id: 's3_title', label: 'Title', type: 'text', defaultValue: "Porches & Porticos", group: 'Service 3' },
+          { id: 's3_desc', label: 'Description', type: 'textarea', defaultValue: "Create a grand, welcoming entrance. We design custom porches that perfectly complement your architecture.", group: 'Service 3' },
+          { id: 's3_img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Service 3' },
+          { id: 's3_img_alt', label: 'Alt Text', type: 'text', defaultValue: "Porches", group: 'Service 3' },
+          { id: 's3_link', label: 'Link URL', type: 'text', defaultValue: "/services/porches", group: 'Service 3' },
+          { id: 's3_btn', label: 'Button Text', type: 'text', defaultValue: "See Porch Designs", group: 'Service 3' },
+        ],
+          css: `
       .offerings-overview { padding: 6rem 0; }
       .offerings-overview__header { text-align: center; max-width: 800px; margin: 0 auto 4.5rem; }
       .offerings-overview__header h2 { font-size: clamp(2rem, 4vw, 2.75rem); margin-bottom: 1.5rem; font-weight: 600; }
@@ -498,23 +624,23 @@ export const templates: TemplateSection[] = [
       .offering-card .btn-outline:hover { color: var(--white) !important; background: var(--navy); border-color: var(--navy); }
       @media (max-width: 768px) { .offerings-overview { padding: 4rem 0; } .offerings-overview__grid { grid-template-columns: 1fr; gap: 2rem; } .offering-card__img { height: 14rem; } .offering-card__body { padding: 2rem; } }
     `,
-    renderHtml: (v) => `<section id="services" class="offerings-overview"><div class="container"><div class="offerings-overview__header"><h2>${v.h2}</h2><p>${v.sub}</p></div><div class="offerings-overview__grid"><article class="offering-card"><div class="offering-card__img"><img src="${v.s1_img}" alt="${v.s1_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s1_title}</h3><p>${v.s1_desc}</p><a href="${v.s1_link}" class="btn btn-outline" style="color: var(--navy);">${v.s1_btn}</a></div></article><article class="offering-card"><div class="offering-card__img"><img src="${v.s2_img}" alt="${v.s2_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s2_title}</h3><p>${v.s2_desc}</p><a href="${v.s2_link}" class="btn btn-outline" style="color: var(--navy);">${v.s2_btn}</a></div></article><article class="offering-card"><div class="offering-card__img"><img src="${v.s3_img}" alt="${v.s3_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s3_title}</h3><p>${v.s3_desc}</p><a href="${v.s3_link}" class="btn btn-outline" style="color: var(--navy);">${v.s3_btn}</a></div></article></div></div></section>`,
-    referenceHtml: `<section id="services" class="offerings-overview"><div class="container"><div class="offerings-overview__header"><h2>The Elements of Your Transformation</h2><p>We don't just sell services; we architect cohesive exteriors where every detail works in harmony.</p></div><div class="offerings-overview__grid"><article class="offering-card"><div class="offering-card__img"><img src="${PLACEHOLDER_IMG}" alt="Siding" loading="lazy"></div><div class="offering-card__body"><h3>Siding Solutions</h3><p>Transform curb appeal and energy efficiency with premium materials masterfully installed for longevity.</p><a href="#" class="btn btn-outline" style="color: var(--navy);">View Siding Options</a></div></article><article class="offering-card"><div class="offering-card__img"><img src="${PLACEHOLDER_IMG}" alt="Decks" loading="lazy"></div><div class="offering-card__body"><h3>Custom Decks</h3><p>Leveraging our heritage to build stunning composite and wood decks that anchor your outdoor living space.</p><a href="#" class="btn btn-outline" style="color: var(--navy);">View Deck Gallery</a></div></article></div></div></section>`
-  },
-  {
-    id: 'feature-left',
+            renderHtml: (v) => `<section id="services" class="offerings-overview"><div class="container"><div class="offerings-overview__header"><h2>${v.h2}</h2><p>${v.sub}</p></div><div class="offerings-overview__grid"><article class="offering-card"><div class="offering-card__img"><img src="${v.s1_img}" alt="${v.s1_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s1_title}</h3><p>${v.s1_desc}</p><a href="${v.s1_link}" class="btn btn-outline" style="color: var(--navy);">${v.s1_btn}</a></div></article><article class="offering-card"><div class="offering-card__img"><img src="${v.s2_img}" alt="${v.s2_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s2_title}</h3><p>${v.s2_desc}</p><a href="${v.s2_link}" class="btn btn-outline" style="color: var(--navy);">${v.s2_btn}</a></div></article><article class="offering-card"><div class="offering-card__img"><img src="${v.s3_img}" alt="${v.s3_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s3_title}</h3><p>${v.s3_desc}</p><a href="${v.s3_link}" class="btn btn-outline" style="color: var(--navy);">${v.s3_btn}</a></div></article></div></div></section>`,
+              referenceHtml: `<section id="services" class="offerings-overview"><div class="container"><div class="offerings-overview__header"><h2>The Elements of Your Transformation</h2><p>We don't just sell services; we architect cohesive exteriors where every detail works in harmony.</p></div><div class="offerings-overview__grid"><article class="offering-card"><div class="offering-card__img"><img src="${PLACEHOLDER_IMG}" alt="Siding" loading="lazy"></div><div class="offering-card__body"><h3>Siding Solutions</h3><p>Transform curb appeal and energy efficiency with premium materials masterfully installed for longevity.</p><a href="#" class="btn btn-outline" style="color: var(--navy);">View Siding Options</a></div></article><article class="offering-card"><div class="offering-card__img"><img src="${PLACEHOLDER_IMG}" alt="Decks" loading="lazy"></div><div class="offering-card__body"><h3>Custom Decks</h3><p>Leveraging our heritage to build stunning composite and wood decks that anchor your outdoor living space.</p><a href="#" class="btn btn-outline" style="color: var(--navy);">View Deck Gallery</a></div></article></div></div></section>`
+},
+{
+  id: 'feature-left',
     name: 'Service Feature (Left)',
-    description: 'Split layout spotlight with image on the left.',
-    fields: [
-      { id: 'title', label: 'Title', type: 'text', defaultValue: "Sunrooms & Enclosures" },
-      { id: 'desc', label: 'Description', type: 'textarea', defaultValue: "Extend your living space into the outdoors with light-filled enclosures designed for four-season enjoyment." },
-      { id: 'img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Featured Image' },
-      { id: 'img_new_tab', label: 'Open in new tab?', type: 'checkbox', defaultValue: "false", group: 'Featured Image' },
-      { id: 'img_alt', label: 'Alt Text', type: 'text', defaultValue: "Sunrooms & Enclosures", group: 'Featured Image' },
-      { id: 'img_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Featured Image' },
-      { id: 'img_title', label: 'Title Attribute', type: 'text', defaultValue: "", group: 'Featured Image' },
-    ],
-    css: `
+      description: 'Split layout spotlight with image on the left.',
+        fields: [
+          { id: 'title', label: 'Title', type: 'text', defaultValue: "Sunrooms & Enclosures" },
+          { id: 'desc', label: 'Description', type: 'textarea', defaultValue: "Extend your living space into the outdoors with light-filled enclosures designed for four-season enjoyment." },
+          { id: 'img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Featured Image' },
+          { id: 'img_new_tab', label: 'Open in new tab?', type: 'checkbox', defaultValue: "false", group: 'Featured Image' },
+          { id: 'img_alt', label: 'Alt Text', type: 'text', defaultValue: "Sunrooms & Enclosures", group: 'Featured Image' },
+          { id: 'img_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Featured Image' },
+          { id: 'img_title', label: 'Title Attribute', type: 'text', defaultValue: "", group: 'Featured Image' },
+        ],
+          css: `
       .feature-split { padding: 7rem 0; overflow: hidden; }
       .feature-split__grid { display: flex; align-items: center; gap: clamp(2rem, 5vw, 6rem); }
       .feature-split__img { flex: 1; min-width: 0; } /* min-width: 0 prevents flex child from overflowing */
@@ -525,32 +651,32 @@ export const templates: TemplateSection[] = [
       .feature-split__content p { font-size: 1.125rem; color: var(--gray); margin-bottom: 3rem; line-height: 1.7; max-width: 32rem; }
       @media (max-width: 1024px) { .feature-split { padding: 4rem 0; } .feature-split__grid { flex-direction: column; gap: 3.5rem; } .feature-split__content { width: 100%; } .feature-split__img { width: 100%; order: -1; } }
     `,
-    renderHtml: (v) => {
-      const imgBlock = `
+            renderHtml: (v) => {
+              const imgBlock = `
         <div class="feature-split__img">
           ${v.img_link ? `<a href="${v.img_link}" ${v.img_new_tab === 'true' ? 'target="_blank" rel="noopener noreferrer"' : ''} style="display:block;height:100%;">` : ''}
           <img src="${v.img}" alt="${v.img_alt}" title="${v.img_title}" loading="lazy">
           ${v.img_link ? `</a>` : ''}
         </div>
       `;
-      return `<section class="feature-split"><div class="container"><div class="feature-split__grid">${imgBlock}<div class="feature-split__content"><h2>${v.title}</h2><p>${v.desc}</p><a href="#" class="btn btn-navy">Learn More</a></div></div></div></section>`;
-    },
-    referenceHtml: `<section class="feature-split"><div class="container"><div class="feature-split__grid"><div class="feature-split__img"><img src="${PLACEHOLDER_IMG}" alt="Sunrooms & Enclosures" loading="lazy"></div><div class="feature-split__content"><h2>Sunrooms & Enclosures</h2><p>Extend your living space into the outdoors with light-filled enclosures designed for four-season enjoyment.</p><a href="#" class="btn btn-navy">Learn More</a></div></div></div></section>`
-  },
-  {
-    id: 'feature-right',
+              return `<section class="feature-split"><div class="container"><div class="feature-split__grid">${imgBlock}<div class="feature-split__content"><h2>${v.title}</h2><p>${v.desc}</p><a href="#" class="btn btn-navy">Learn More</a></div></div></div></section>`;
+            },
+              referenceHtml: `<section class="feature-split"><div class="container"><div class="feature-split__grid"><div class="feature-split__img"><img src="${PLACEHOLDER_IMG}" alt="Sunrooms & Enclosures" loading="lazy"></div><div class="feature-split__content"><h2>Sunrooms & Enclosures</h2><p>Extend your living space into the outdoors with light-filled enclosures designed for four-season enjoyment.</p><a href="#" class="btn btn-navy">Learn More</a></div></div></div></section>`
+},
+{
+  id: 'feature-right',
     name: 'Service Feature (Right)',
-    description: 'Split layout spotlight with image on the right.',
-    fields: [
-      { id: 'title', label: 'Title', type: 'text', defaultValue: "Architectural Accents" },
-      { id: 'desc', label: 'Description', type: 'textarea', defaultValue: "Elevate your home's character with custom porticos and high-performance trims." },
-      { id: 'img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Featured Image' },
-      { id: 'img_new_tab', label: 'Open in new tab?', type: 'checkbox', defaultValue: "false", group: 'Featured Image' },
-      { id: 'img_alt', label: 'Alt Text', type: 'text', defaultValue: "Architectural Accents", group: 'Featured Image' },
-      { id: 'img_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Featured Image' },
-      { id: 'img_title', label: 'Title Attribute', type: 'text', defaultValue: "", group: 'Featured Image' },
-    ],
-    css: `
+      description: 'Split layout spotlight with image on the right.',
+        fields: [
+          { id: 'title', label: 'Title', type: 'text', defaultValue: "Architectural Accents" },
+          { id: 'desc', label: 'Description', type: 'textarea', defaultValue: "Elevate your home's character with custom porticos and high-performance trims." },
+          { id: 'img', label: 'Image URL', type: 'url', defaultValue: PLACEHOLDER_IMG, group: 'Featured Image' },
+          { id: 'img_new_tab', label: 'Open in new tab?', type: 'checkbox', defaultValue: "false", group: 'Featured Image' },
+          { id: 'img_alt', label: 'Alt Text', type: 'text', defaultValue: "Architectural Accents", group: 'Featured Image' },
+          { id: 'img_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Featured Image' },
+          { id: 'img_title', label: 'Title Attribute', type: 'text', defaultValue: "", group: 'Featured Image' },
+        ],
+          css: `
       .feature-split { padding: 7rem 0; overflow: hidden; }
       .feature-split__grid { display: flex; align-items: center; gap: clamp(2rem, 5vw, 6rem); }
       .feature-split__img { flex: 1; min-width: 0; }
@@ -561,45 +687,45 @@ export const templates: TemplateSection[] = [
       .feature-split__content p { font-size: 1.125rem; color: var(--gray); margin-bottom: 3rem; line-height: 1.7; max-width: 32rem; }
       @media (max-width: 1024px) { .feature-split { padding: 4rem 0; } .feature-split__grid { flex-direction: column; gap: 3.5rem; } .feature-split__content { width: 100%; order: 2; } .feature-split__img { width: 100%; order: 1; box-shadow: 20px 20px 0px var(--light); } }
     `,
-    renderHtml: (v) => {
-      const imgBlock = `
+            renderHtml: (v) => {
+              const imgBlock = `
         <div class="feature-split__img">
           ${v.img_link ? `<a href="${v.img_link}" ${v.img_new_tab === 'true' ? 'target="_blank" rel="noopener noreferrer"' : ''} style="display:block;height:100%;">` : ''}
           <img src="${v.img}" alt="${v.img_alt}" title="${v.img_title}" loading="lazy">
           ${v.img_link ? `</a>` : ''}
         </div>
       `;
-      return `<section class="feature-split"><div class="container"><div class="feature-split__grid"><div class="feature-split__content"><h2>${v.title}</h2><p>${v.desc}</p><a href="#" class="btn btn-navy">Learn More</a></div>${imgBlock}</div></div></section>`;
-    },
-    referenceHtml: `<section class="feature-split"><div class="container"><div class="feature-split__grid"><div class="feature-split__content"><h2>Architectural Accents</h2><p>Elevate your home's character with custom porticos and high-performance trims.</p><a href="#" class="btn btn-navy">Learn More</a></div><div class="feature-split__img"><img src="${PLACEHOLDER_IMG}" alt="Architectural Accents" loading="lazy"></div></div></div></section>`
-  },
-  {
-    id: 'portfolio',
+              return `<section class="feature-split"><div class="container"><div class="feature-split__grid"><div class="feature-split__content"><h2>${v.title}</h2><p>${v.desc}</p><a href="#" class="btn btn-navy">Learn More</a></div>${imgBlock}</div></div></section>`;
+            },
+              referenceHtml: `<section class="feature-split"><div class="container"><div class="feature-split__grid"><div class="feature-split__content"><h2>Architectural Accents</h2><p>Elevate your home's character with custom porticos and high-performance trims.</p><a href="#" class="btn btn-navy">Learn More</a></div><div class="feature-split__img"><img src="${PLACEHOLDER_IMG}" alt="Architectural Accents" loading="lazy"></div></div></div></section>`
+},
+{
+  id: 'portfolio',
     name: 'Feature Portfolio',
-    description: 'Alternating feature rows with overlapping dark cards.',
-    fields: [
-      { id: 'heading', label: 'Section Title', type: 'text', defaultValue: 'Recent Transformations' },
-      { id: 'subtext', label: 'Section Description', type: 'textarea', defaultValue: 'We don\'t just sell services; we architect cohesive exteriors where every detail works in harmony.' },
+      description: 'Alternating feature rows with overlapping dark cards.',
+        fields: [
+          { id: 'heading', label: 'Section Title', type: 'text', defaultValue: 'Recent Transformations' },
+          { id: 'subtext', label: 'Section Description', type: 'textarea', defaultValue: 'We don\'t just sell services; we architect cohesive exteriors where every detail works in harmony.' },
 
-      { id: 'project1_title', label: 'Project 1 Title', type: 'text', defaultValue: 'Unified Design. Masterful Build.' },
-      { id: 'project1_desc', label: 'Project 1 Description', type: 'textarea', defaultValue: 'Stop juggling unreliable contractors. We orchestrate a complete, cohesive transformation for your home—combining siding, decks, and architectural details into a single vision.' },
-      { id: 'project1_cta', label: 'Project 1 CTA', type: 'text', defaultValue: 'VIEW TRANSFORMATION' },
-      { id: 'project1_image', label: 'Image URL', type: 'url', defaultValue: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=2000', group: 'Project 1 Image' },
-      { id: 'project1_link_new_tab', label: 'New Tab?', type: 'checkbox', defaultValue: 'false', group: 'Project 1 Image' },
-      { id: 'project1_alt', label: 'Alt Text', type: 'text', defaultValue: '', group: 'Project 1 Image' },
-      { id: 'project1_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Project 1 Image' },
-      { id: 'project1_title', label: 'Title Attribute', type: 'text', defaultValue: '', group: 'Project 1 Image' },
+          { id: 'project1_title', label: 'Project 1 Title', type: 'text', defaultValue: 'Unified Design. Masterful Build.' },
+          { id: 'project1_desc', label: 'Project 1 Description', type: 'textarea', defaultValue: 'Stop juggling unreliable contractors. We orchestrate a complete, cohesive transformation for your home—combining siding, decks, and architectural details into a single vision.' },
+          { id: 'project1_cta', label: 'Project 1 CTA', type: 'text', defaultValue: 'VIEW TRANSFORMATION' },
+          { id: 'project1_image', label: 'Image URL', type: 'url', defaultValue: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=2000', group: 'Project 1 Image' },
+          { id: 'project1_link_new_tab', label: 'New Tab?', type: 'checkbox', defaultValue: 'false', group: 'Project 1 Image' },
+          { id: 'project1_alt', label: 'Alt Text', type: 'text', defaultValue: '', group: 'Project 1 Image' },
+          { id: 'project1_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Project 1 Image' },
+          { id: 'project1_title', label: 'Title Attribute', type: 'text', defaultValue: '', group: 'Project 1 Image' },
 
-      { id: 'project2_title', label: 'Project 2 Title', type: 'text', defaultValue: 'Unified Design. Masterful Build.' },
-      { id: 'project2_desc', label: 'Project 2 Description', type: 'textarea', defaultValue: 'Stop juggling unreliable contractors. We orchestrate a complete, cohesive transformation for your home—combining siding, decks, and architectural details into a single vision.' },
-      { id: 'project2_cta', label: 'Project 2 CTA', type: 'text', defaultValue: 'START YOUR TRANSFORMATION' },
-      { id: 'project2_image', label: 'Image URL', type: 'url', defaultValue: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=2000', group: 'Project 2 Image' },
-      { id: 'project2_link_new_tab', label: 'New Tab?', type: 'checkbox', defaultValue: 'false', group: 'Project 2 Image' },
-      { id: 'project2_alt', label: 'Alt Text', type: 'text', defaultValue: '', group: 'Project 2 Image' },
-      { id: 'project2_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Project 2 Image' },
-      { id: 'project2_title', label: 'Title Attribute', type: 'text', defaultValue: '', group: 'Project 2 Image' },
-    ],
-    css: `
+          { id: 'project2_title', label: 'Project 2 Title', type: 'text', defaultValue: 'Unified Design. Masterful Build.' },
+          { id: 'project2_desc', label: 'Project 2 Description', type: 'textarea', defaultValue: 'Stop juggling unreliable contractors. We orchestrate a complete, cohesive transformation for your home—combining siding, decks, and architectural details into a single vision.' },
+          { id: 'project2_cta', label: 'Project 2 CTA', type: 'text', defaultValue: 'START YOUR TRANSFORMATION' },
+          { id: 'project2_image', label: 'Image URL', type: 'url', defaultValue: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=2000', group: 'Project 2 Image' },
+          { id: 'project2_link_new_tab', label: 'New Tab?', type: 'checkbox', defaultValue: 'false', group: 'Project 2 Image' },
+          { id: 'project2_alt', label: 'Alt Text', type: 'text', defaultValue: '', group: 'Project 2 Image' },
+          { id: 'project2_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Project 2 Image' },
+          { id: 'project2_title', label: 'Title Attribute', type: 'text', defaultValue: '', group: 'Project 2 Image' },
+        ],
+          css: `
       .gallery-section { background-color: var(--white); padding: 6rem 0 8rem; position: relative; overflow: hidden; }
       .gallery-header { text-align: center; max-width: 48rem; margin: 0 auto 6rem; padding: 0 1.5rem; }
       .gallery-header h2 { color: var(--navy); font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 600; margin-bottom: 1.5rem; line-height: 1.1; }
@@ -634,7 +760,7 @@ export const templates: TemplateSection[] = [
         .project-card, .project-row.reverse .project-card { width: 90%; margin: 0 auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); }
       }
     `,
-    renderHtml: (values) => `
+            renderHtml: (values) => `
       <section class="gallery-section">
         <div class="gallery-header">
           <h2>${values.heading}</h2>
@@ -678,7 +804,7 @@ export const templates: TemplateSection[] = [
         </div>
       </section>
     `,
-    referenceHtml: `<section class="gallery-section">
+              referenceHtml: `<section class="gallery-section">
         <div class="gallery-header">
           <h2>Recent Transformations</h2>
           <p>We don't just sell services; we architect cohesive exteriors where every detail works in harmony.</p>
@@ -716,24 +842,24 @@ export const templates: TemplateSection[] = [
           </div>
         </div>
       </section>`
-  },
-  {
-    id: 'testimonials',
+},
+{
+  id: 'testimonials',
     name: 'Client Experiences',
-    description: 'Three-column grid for detailed customer feedback.',
-    fields: [
-      { id: 'title', label: 'Section Title', type: 'text', defaultValue: "Client Experiences" },
-      // Review 1
-      { id: 'review1_text', label: 'Review 1 Text', type: 'textarea', defaultValue: "Integrity Remodeling was a revelation. One team managed everything perfectly, from the initial design to the final cleanup." },
-      { id: 'review1_name', label: 'Review 1 Name', type: 'text', defaultValue: "Sarah J., Oakville" },
-      // Review 2
-      { id: 'review2_text', label: 'Review 2 Text', type: 'textarea', defaultValue: "The attention to detail was incredible. They didn't just build a deck; they created an outdoor living room we never want to leave." },
-      { id: 'review2_name', label: 'Review 2 Name', type: 'text', defaultValue: "Mark T., Burlington" },
-      // Review 3
-      { id: 'review3_text', label: 'Review 3 Text', type: 'textarea', defaultValue: "Professional, timely, and beautiful work. The unified design process made decision-making so much easier." },
-      { id: 'review3_name', label: 'Review 3 Name', type: 'text', defaultValue: "Emily R., Mississauga" }
-    ],
-    css: `
+      description: 'Three-column grid for detailed customer feedback.',
+        fields: [
+          { id: 'title', label: 'Section Title', type: 'text', defaultValue: "Client Experiences" },
+          // Review 1
+          { id: 'review1_text', label: 'Review 1 Text', type: 'textarea', defaultValue: "Integrity Remodeling was a revelation. One team managed everything perfectly, from the initial design to the final cleanup." },
+          { id: 'review1_name', label: 'Review 1 Name', type: 'text', defaultValue: "Sarah J., Oakville" },
+          // Review 2
+          { id: 'review2_text', label: 'Review 2 Text', type: 'textarea', defaultValue: "The attention to detail was incredible. They didn't just build a deck; they created an outdoor living room we never want to leave." },
+          { id: 'review2_name', label: 'Review 2 Name', type: 'text', defaultValue: "Mark T., Burlington" },
+          // Review 3
+          { id: 'review3_text', label: 'Review 3 Text', type: 'textarea', defaultValue: "Professional, timely, and beautiful work. The unified design process made decision-making so much easier." },
+          { id: 'review3_name', label: 'Review 3 Name', type: 'text', defaultValue: "Emily R., Mississauga" }
+        ],
+          css: `
       .social-proof { padding: 7rem 0; background: var(--light); position: relative; }
       .social-proof__header { text-align: center; max-width: 800px; margin: 0 auto 5rem; }
       .social-proof__header h2 { font-size: clamp(2rem, 4vw, 2.75rem); color: var(--navy); margin-bottom: 2rem; font-weight: 600; }
@@ -751,7 +877,7 @@ export const templates: TemplateSection[] = [
         .review-card { padding: 2.5rem; }
       }
     `,
-    renderHtml: (v) => `
+            renderHtml: (v) => `
       <section class="social-proof">
         <div class="container">
           <div class="social-proof__header">
@@ -774,7 +900,7 @@ export const templates: TemplateSection[] = [
         </div>
       </section>
     `,
-    referenceHtml: `
+              referenceHtml: `
       <section class="social-proof">
         <div class="container">
           <div class="social-proof__header">
@@ -797,33 +923,33 @@ export const templates: TemplateSection[] = [
         </div>
       </section>
     `
-  },
-  {
-    id: 'cta',
+},
+{
+  id: 'cta',
     name: 'Pre-Footer CTA',
-    description: 'Conversion-focused module with clear call to action.',
-    fields: [
-      { id: 'h2', label: 'Heading', type: 'text', defaultValue: "Ready to Transform Your Home?" }
-    ],
-    css: `
+      description: 'Conversion-focused module with clear call to action.',
+        fields: [
+          { id: 'h2', label: 'Heading', type: 'text', defaultValue: "Ready to Transform Your Home?" }
+        ],
+          css: `
       .bottom-cta { padding: 8rem 0; text-align: center; background: white; border-top: 1px solid #eee; }
       .bottom-cta h2 { font-size: 2.5rem; margin-bottom: 2rem; font-weight: 600; }
     `,
-    renderHtml: (v) => `<section class="bottom-cta"><div class="container"><h2>${v.h2}</h2><a href="#" class="btn btn-navy">Schedule Consultation</a></div></section>`,
-    referenceHtml: `<section class="bottom-cta"><div class="container"><h2>Ready to Transform Your Home?</h2><a href="#" class="btn btn-navy">Schedule Consultation</a></div></section>`
-  },
-  {
-    id: 'contact',
+            renderHtml: (v) => `<section class="bottom-cta"><div class="container"><h2>${v.h2}</h2><a href="#" class="btn btn-navy">Schedule Consultation</a></div></section>`,
+              referenceHtml: `<section class="bottom-cta"><div class="container"><h2>Ready to Transform Your Home?</h2><a href="#" class="btn btn-navy">Schedule Consultation</a></div></section>`
+},
+{
+  id: 'contact',
     name: 'Contact Form (Split)',
-    description: 'Lead generation form with contact info on side.',
-    fields: [
-      { id: 'h2', label: 'Heading', type: 'text', defaultValue: "Let's Start Your Conversation" },
-      { id: 'sub', label: 'Subtext', type: 'textarea', defaultValue: "Ready to discuss your project? Fill out the form below or call us directly." },
-      { id: 'phone', label: 'Phone', type: 'text', defaultValue: "(555) 123-4567" },
-      { id: 'email', label: 'Email', type: 'text', defaultValue: "hello@integrityremodeling.ca" },
-      { id: 'address', label: 'Address', type: 'textarea', defaultValue: "123 Builder Lane<br>Oakville, ON L6J 5A2" }
-    ],
-    css: `
+      description: 'Lead generation form with contact info on side.',
+        fields: [
+          { id: 'h2', label: 'Heading', type: 'text', defaultValue: "Let's Start Your Conversation" },
+          { id: 'sub', label: 'Subtext', type: 'textarea', defaultValue: "Ready to discuss your project? Fill out the form below or call us directly." },
+          { id: 'phone', label: 'Phone', type: 'text', defaultValue: "(555) 123-4567" },
+          { id: 'email', label: 'Email', type: 'text', defaultValue: "hello@integrityremodeling.ca" },
+          { id: 'address', label: 'Address', type: 'textarea', defaultValue: "123 Builder Lane<br>Oakville, ON L6J 5A2" }
+        ],
+          css: `
       .contact-section { padding: 6rem 0; background: var(--light); }
       .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
       .contact-info h2 { font-size: 2.5rem; margin-bottom: 1.5rem; font-weight: 600; }
@@ -841,7 +967,7 @@ export const templates: TemplateSection[] = [
       
       @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; gap: 3rem; } .contact-form { padding: 2rem; } }
     `,
-    renderHtml: (v) => `<section id="contact" class="contact-section"><div class="container"><div class="contact-grid"><div class="contact-info"><h2>${v.h2}</h2><p>${v.sub}</p><div class="contact-details"><div class="contact-item"><strong>Phone</strong><span>${v.phone}</span></div><div class="contact-item"><strong>Email</strong><span>${v.email}</span></div><div class="contact-item"><strong>Studio</strong><span>${v.address}</span></div></div></div><div class="contact-form"><div class="form-group"><label>Name</label><input type="text" class="form-control" placeholder="Your Name"></div><div class="form-group"><label>Email</label><input type="email" class="form-control" placeholder="email@address.com"></div><div class="form-group"><label>Project Details</label><textarea class="form-control" rows="4" placeholder="Tell us about your home..."></textarea></div><button class="btn btn-navy" style="width: 100%;">Send Message</button></div></div></div></section>`,
-    referenceHtml: `<section id="contact" class="contact-section"><div class="container"><div class="contact-grid"><div class="contact-info"><h2>Let's Start Your Conversation</h2><p>Ready to discuss your project? Fill out the form below or call us directly.</p><div class="contact-details"><div class="contact-item"><strong>Phone</strong><span>(555) 123-4567</span></div><div class="contact-item"><strong>Email</strong><span>hello@integrityremodeling.ca</span></div><div class="contact-item"><strong>Studio</strong><span>123 Builder Lane<br>Oakville, ON L6J 5A2</span></div></div></div><div class="contact-form"><div class="form-group"><label>Name</label><input type="text" class="form-control" placeholder="Your Name"></div><div class="form-group"><label>Email</label><input type="email" class="form-control" placeholder="email@address.com"></div><div class="form-group"><label>Project Details</label><textarea class="form-control" rows="4" placeholder="Tell us about your home..."></textarea></div><button class="btn btn-navy" style="width: 100%;">Send Message</button></div></div></div></section>`
-  }
+            renderHtml: (v) => `<section id="contact" class="contact-section"><div class="container"><div class="contact-grid"><div class="contact-info"><h2>${v.h2}</h2><p>${v.sub}</p><div class="contact-details"><div class="contact-item"><strong>Phone</strong><span>${v.phone}</span></div><div class="contact-item"><strong>Email</strong><span>${v.email}</span></div><div class="contact-item"><strong>Studio</strong><span>${v.address}</span></div></div></div><div class="contact-form"><div class="form-group"><label>Name</label><input type="text" class="form-control" placeholder="Your Name"></div><div class="form-group"><label>Email</label><input type="email" class="form-control" placeholder="email@address.com"></div><div class="form-group"><label>Project Details</label><textarea class="form-control" rows="4" placeholder="Tell us about your home..."></textarea></div><button class="btn btn-navy" style="width: 100%;">Send Message</button></div></div></div></section>`,
+              referenceHtml: `<section id="contact" class="contact-section"><div class="container"><div class="contact-grid"><div class="contact-info"><h2>Let's Start Your Conversation</h2><p>Ready to discuss your project? Fill out the form below or call us directly.</p><div class="contact-details"><div class="contact-item"><strong>Phone</strong><span>(555) 123-4567</span></div><div class="contact-item"><strong>Email</strong><span>hello@integrityremodeling.ca</span></div><div class="contact-item"><strong>Studio</strong><span>123 Builder Lane<br>Oakville, ON L6J 5A2</span></div></div></div><div class="contact-form"><div class="form-group"><label>Name</label><input type="text" class="form-control" placeholder="Your Name"></div><div class="form-group"><label>Email</label><input type="email" class="form-control" placeholder="email@address.com"></div><div class="form-group"><label>Project Details</label><textarea class="form-control" rows="4" placeholder="Tell us about your home..."></textarea></div><button class="btn btn-navy" style="width: 100%;">Send Message</button></div></div></div></section>`
+}
 ];

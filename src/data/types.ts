@@ -2,9 +2,11 @@
 export interface EditableField {
   id: string;
   label: string;
-  type: 'text' | 'textarea' | 'url' | 'checkbox';
+  type: 'text' | 'textarea' | 'url' | 'checkbox' | 'rich-text' | 'select';
   defaultValue: string;
   group?: string;
+  options?: string[];
+  helpText?: string;
 }
 
 export interface TemplateSection {
@@ -27,8 +29,19 @@ export interface EditorSection {
 export interface SavedPage {
   id: string;
   title: string;
-  note: string;
+  notes: string;
+  projectId?: string;
   sections: EditorSection[];
+  createdAt: number;
+  updatedAt: number;
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  domain: string;
+  notes: string;
+  assignedUsers: string;
   createdAt: number;
   updatedAt: number;
 }

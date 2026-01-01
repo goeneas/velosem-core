@@ -100,6 +100,34 @@ export function useTemplateEditor() {
     });
   }, []);
 
+  // Update Section (General)
+  const updateSection = useCallback((uId: string, updates: Partial<EditorSection>) => {
+    setSections(prev => prev.map(section => {
+      if (section.uId !== uId) return section;
+      return { ...section, ...updates };
+    }));
+  }, []);
+
+  // Import Sections
+  const importSections = useCallback((newSections: EditorSection[]) => {
+    // Regenerate UIDs to prevent collision if imported multiple times
+    const imported = newSections.map(s => ({
+      ...s,
+      uId: crypto.randomUUID()
+    }));
+    setSections(imported);
+    if (imported.length > 0) {
+      setActiveId(imported[0].uId);
+      setActiveTab('content');
+    }
+  }, []);
+
+  // Basic History / Undo / Redo Stubs (Future Implementation)
+  const [history] = useState<any[]>([]);
+  const undo = useCallback(() => { }, []);
+  const redo = useCallback(() => { }, []);
+
+
   // Remove section
   const removeSection = useCallback((uId: string) => {
     setSections(prev => {
@@ -160,11 +188,8 @@ export function useTemplateEditor() {
 
   // Update Section Status
   const updateSectionStatus = useCallback((uId: string, status: 'in-progress' | 'completed' | undefined) => {
-    setSections(prev => prev.map(section => {
-      if (section.uId !== uId) return section;
-      return { ...section, status };
-    }));
-  }, []);
+    updateSection(uId, { status });
+  }, [updateSection]);
 
   // UI Helpers
   const toggleFieldMode = useCallback((id: string) => {
@@ -256,12 +281,17 @@ ${fullHtml}
     activeTab,
     fieldModes,
     linkPopup,
+    history,
 
     // Actions
     setActiveId,
     setActiveTab,
     addSection,
     moveSection,
+    updateSection,
+    importSections,
+    undo,
+    redo,
     removeSection,
     clearAllSections,
     handleFieldChange,

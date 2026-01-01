@@ -1,7 +1,7 @@
 // Data
 export { templates } from './data/templates';
 export { COMMON_CSS_BASE } from './data/constants';
-export type { EditorSection, SavedPage, TemplateSection, EditableField } from './data/types';
+export type { EditorSection, SavedPage, TemplateSection, EditableField, Project } from './data/types';
 
 // Hooks
 export { useTemplateEditor } from './hooks/useTemplateEditor';

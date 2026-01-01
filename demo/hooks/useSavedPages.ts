@@ -22,12 +22,13 @@ export function useSavedPages() {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(savedPages));
     }, [savedPages]);
 
-    const savePage = useCallback((title: string, note: string, sections: EditorSection[]) => {
+    const savePage = useCallback((title: string, notes: string, sections: EditorSection[], projectId?: string) => {
         const id = crypto.randomUUID();
         const newPage: SavedPage = {
             id,
             title: title || 'Untitled Page',
-            note: note || '',
+            notes: notes || '',
+            projectId,
             sections,
             createdAt: Date.now(),
             updatedAt: Date.now()
@@ -36,10 +37,10 @@ export function useSavedPages() {
         return id;
     }, []);
 
-    const updatePageMeta = useCallback((id: string, title: string, note: string) => {
+    const updatePageMeta = useCallback((id: string, title: string, notes: string) => {
         setSavedPages(prev => prev.map(page => {
             if (page.id !== id) return page;
-            return { ...page, title, note, updatedAt: Date.now() };
+            return { ...page, title, notes, updatedAt: Date.now() };
         }));
     }, []);
 
@@ -75,12 +76,22 @@ export function useSavedPages() {
         });
     }, []);
 
+    const getPagesByProject = useCallback((projectId: string) => {
+        return savedPages.filter(page => page.projectId === projectId);
+    }, [savedPages]);
+
+    const deletePagesByProject = useCallback((projectId: string) => {
+        setSavedPages(prev => prev.filter(page => page.projectId !== projectId));
+    }, []);
+
     return {
         savedPages,
         savePage,
         updatePageMeta,
         updatePageContent,
         deletePage,
-        importPages
+        importPages,
+        getPagesByProject,
+        deletePagesByProject
     };
 }
