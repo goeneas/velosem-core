@@ -13,7 +13,7 @@ export const COMMON_CSS_BASE = `
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--sans); color: var(--slate); background: var(--white); line-height: 1.6; }
+body { font-family: var(--sans); color: var(--slate); background: var(--white); line-height: 1.6; white-space: normal; }
 
 /* Reset container background to transparent to avoid WP Theme conflicts */
 .container { 

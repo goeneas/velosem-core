@@ -9,6 +9,40 @@ export const templates: TemplateSection[] = [
     id: 'hero',
     name: 'Primary Hero Banner',
     description: '40/60 Split. Desktop: Navy box sticks to left edge, centered vertically. Mobile: Image on top (landscape crop) with box directly underneath.',
+    structure: [
+      {
+        id: 'hero-root',
+        type: 'section',
+        label: 'Hero Section',
+        style: { display: 'flex', minHeight: '80vh' },
+        children: [
+          {
+            id: 'content-area',
+            type: 'div',
+            label: 'Content Area',
+            style: { flex: '0 0 42%', padding: '2rem' },
+            children: [
+              {
+                id: 'navy-box',
+                type: 'div',
+                label: 'Navy Box',
+                style: { backgroundColor: '#0B1220', padding: '4rem' },
+                children: [
+                  { id: 'hero-title', type: 'h1', label: 'Title', content: 'Unified Design. Masterful Build.', style: { color: '#ffffff', fontSize: '3rem' } },
+                  { id: 'hero-desc', type: 'p', label: 'Description', content: 'Stop juggling unreliable contractors.', style: { color: '#ffffff', opacity: 0.8 } }
+                ]
+              }
+            ]
+          },
+          {
+            id: 'image-area',
+            type: 'div',
+            label: 'Image Area',
+            style: { flex: '0 0 58%', backgroundColor: '#f8fafc' }
+          }
+        ]
+      }
+    ],
     fields: [
       { id: 'title', label: 'Title', type: 'textarea', defaultValue: "Unified Design.<br>Masterful Build." },
       { id: 'desc', label: 'Subtext', type: 'textarea', defaultValue: "Stop juggling unreliable contractors. We orchestrate a complete, cohesive transformation for your home—combining siding, decks, and architectural details into a single vision." },
@@ -63,145 +97,154 @@ export const templates: TemplateSection[] = [
       { id: 'body_content', label: 'Article Body', type: 'textarea', defaultValue: "<h2>Introduction</h2><p>Start writing your article here. Use the toolbar to add formatting.</p><h3>Section 1</h3><p>More details...</p>", group: 'Content' }
     ],
     css: `
-                                        /* Reuse SEO Hero Styles */
-                                        .seo - hero { background- color: var(--white); position: relative; overflow: hidden; display: grid; grid - template - columns: minmax(0, 42 %) minmax(0, 58 %); align - items: stretch; min - height: 700px; border - bottom: 1px solid #e2e8f0; }
-      .seo - hero__content { position: relative; z - index: 10; display: flex; align - items: center; padding: 2rem 0; }
-      .seo - box { background: var(--white); border: 1px solid var(--navy); padding: clamp(3rem, 5vw, 4rem); width: calc(100 % + clamp(2rem, 5vw, 4rem)); margin - right: calc(-1 * clamp(2rem, 5vw, 4rem)); box - shadow: 20px 20px 60px - 10px rgba(0, 0, 0, 0.1); display: flex; flex - direction: column; justify - content: center; position: relative; }
-      .seo - box h1 { font - size: clamp(2.25rem, 3.5vw, 3.25rem); color: var(--navy); margin - bottom: 2rem; line - height: 1.1; font - weight: 700; }
-      .seo - facts h2 { font - size: 1.25rem; font - weight: 700; color: var(--navy); margin - bottom: 1rem; text - transform: uppercase; letter - spacing: 0.05em; border - bottom: 2px solid var(--orange); display: inline - block; padding - bottom: 0.25rem; }
-      .seo - facts ul { list - style: disc; padding - left: 1.25rem; margin: 0; }
-      .seo - facts li { margin - bottom: 0.75rem; color: var(--slate); line - height: 1.6; font - size: 1rem; padding - left: 0; }
-      .seo - facts li::marker { color: var(--orange); font - size: 1.1rem; }
-      .seo - hero__img - area { position: relative; width: 100 %; height: 100 %; background: #f1f5f9; overflow: hidden; }
-      .seo - hero__img { position: absolute; inset: 0; width: 100 %; height: 100 %; object - fit: cover; }
+      /* Reuse SEO Hero Styles */
+      .seo-hero { background-color: var(--white); position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 42%) minmax(0, 58%); align-items: stretch; min-height: 700px; border-bottom: 1px solid #e2e8f0; }
+      .seo-hero__content { position: relative; z-index: 10; display: flex; align-items: center; padding: 2rem 0; }
+      .seo-box { background: var(--white); border: 1px solid var(--navy); padding: clamp(3rem, 5vw, 4rem); width: calc(100% + clamp(2rem, 5vw, 4rem)); margin-right: calc(-1 * clamp(2rem, 5vw, 4rem)); box-shadow: 20px 20px 60px -10px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; justify-content: center; position: relative; }
+      .seo-box h1 { font-size: clamp(2.25rem, 3.5vw, 3.25rem); color: var(--navy); margin-bottom: 2rem; line-height: 1.1; font-weight: 700; }
+      .seo-facts h2 { font-size: 1.25rem; font-weight: 700; color: var(--navy); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--orange); display: inline-block; padding-bottom: 0.25rem; }
+      .seo-facts ul { list-style: disc; padding-left: 1.25rem; margin: 0; }
+      .seo-facts li { margin-bottom: 0.75rem; color: var(--slate); line-height: 1.6; font-size: 1rem; padding-left: 0; }
+      .seo-facts li::marker { color: var(--orange); font-size: 1.1rem; }
+      .seo-hero__img-area { position: relative; width: 100%; height: 100%; background: #f1f5f9; overflow: hidden; }
+      .seo-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
       /* TOC Styles */
-      .toc - container { background: var(--white); border - bottom: 1px solid #e2e8f0; padding: 0; width: 100 %; }
-      .toc - box { border: 1px solid #e2e8f0; border - radius: 4px; overflow: hidden; margin: 3rem auto; max - width: 100 %; width: 100 %; }
-      .toc - header { background: #f8fafc; padding: 1rem 1.5rem; display: flex; justify - content: space - between; align - items: center; cursor: pointer; user - select: none; }
-      .toc - header h3 { font - size: 1rem; font - weight: 700; color: var(--navy); margin: 0; }
-      .toc - content { padding: 0!important; display: block; border - top: 1px solid #e2e8f0; }
-      .toc - content p, .toc - box > p { display: none!important; margin: 0!important; padding: 0!important; }
-      .toc - icon { transition: transform 0.3s ease; }
-      .toc - icon.rotate { transform: rotate(180deg); }
-      .toc - list - dynamic { list - style: none!important; padding: 1.5rem!important; margin: 0!important; columns: 2; }
-      .toc - list - dynamic:empty { padding: 0!important; }
-      .toc - list - dynamic li { margin - bottom: 0.5rem; font - size: 0.95rem; color: var(--navy); position: relative; padding - left: 1rem; }
-      .toc - list - dynamic li::before { content: "•"; color: var(--gray); position: absolute; left: 0; }
-      .toc - list - dynamic li a { text - decoration: none; color: inherit; transition: color 0.2s; }
-      .toc - list - dynamic li a:hover { color: var(--orange); }
-      .toc - list - dynamic.toc - h3 { margin - left: 1.5rem; font - size: 0.9em; opacity: 0.9; }
+      .toc-container { background: var(--white); border-bottom: 1px solid #e2e8f0; padding: 0; width: 100%; }
+      .toc-box { border: 1px solid #e2e8f0; border-radius: 4px; overflow: hidden; margin: 3rem auto; max-width: 100%; width: 100%; }
+      .toc-header { background: #f8fafc; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+      .toc-header h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin: 0; }
+      .toc-content { padding: 0!important; display: block; border-top: 1px solid #e2e8f0; }
+      .toc-content p, .toc-box > p { display: none!important; margin: 0!important; padding: 0!important; }
+      .toc-icon { transition: transform 0.3s ease; }
+      .toc-icon.rotate { transform: rotate(180deg); }
+      .toc-list-dynamic { list-style: none!important; padding: 1.5rem!important; margin: 0!important; columns: 2; }
+      .toc-list-dynamic:empty { padding: 0!important; }
+      .toc-list-dynamic li { margin-bottom: 0.5rem; font-size: 0.95rem; color: var(--navy); position: relative; padding-left: 1rem; }
+      .toc-list-dynamic li::before { content: "•"; color: var(--gray); position: absolute; left: 0; }
+      .toc-list-dynamic li a { text-decoration: none; color: inherit; transition: color 0.2s; }
+      .toc-list-dynamic li a:hover { color: var(--orange); }
+      .toc-list-dynamic.toc-h3 { margin-left: 1.5rem; font-size: 0.9em; opacity: 0.9; }
 
       /* Body Content Styles */
-      .article - body { max - width: 100 %; width: 100 %; margin: 0 auto; padding: 4rem 2rem; color: var(--slate); font - size: 1.125rem; line - height: 1.8; }
-      .article - body h2 { font - size: 2rem; font - weight: 700; color: var(--navy); margin - top: 3rem; margin - bottom: 1.5rem; }
-      .article - body h3 { font - size: 1.5rem; font - weight: 700; color: var(--navy); margin - top: 2.5rem; margin - bottom: 1rem; }
-      .article - body p { margin - bottom: 1.5rem; }
-      .article - body ul { margin - bottom: 1.5rem; padding - left: 1.5rem; list - style: disc; }
-      .article - body ol { margin - bottom: 1.5rem; padding - left: 1.5rem; list - style: decimal; }
-      .article - body li { margin - bottom: 0.5rem; }
-      .article - body a { color: var(--orange); text - decoration: underline; font - weight: 600; }
-      .article - body blockquote { border - left: 4px solid var(--orange); padding - left: 1.5rem; font - style: italic; margin: 2rem 0; color: var(--navy); }
+      .article-body { max-width: 100%; width: 100%; margin: 0 auto; padding: 4rem 2rem; color: var(--slate); font-size: 1.125rem; line-height: 1.8; }
+      .article-body h2 { font-size: 2rem; font-weight: 700; color: var(--navy); margin-top: 3rem; margin-bottom: 1.5rem; }
+      .article-body h3 { font-size: 1.5rem; font-weight: 700; color: var(--navy); margin-top: 2.5rem; margin-bottom: 1rem; }
+      .article-body p { margin-bottom: 1.5rem; }
+      .article-body ul { margin-bottom: 1.5rem; padding-left: 1.5rem; list-style: disc; }
+      .article-body ol { margin-bottom: 1.5rem; padding-left: 1.5rem; list-style: decimal; }
+      .article-body li { margin-bottom: 0.5rem; }
+      .article-body a { color: var(--orange); text-decoration: underline; font-weight: 600; }
+      .article-body blockquote { border-left: 4px solid var(--orange); padding-left: 1.5rem; font-style: italic; margin: 2rem 0; color: var(--navy); }
 
-@media(max - width: 1024px) {
-        .seo - hero { display: flex; flex - direction: column - reverse; min - height: auto; }
-        .seo - hero__img - area { height: 350px; min - height: 0; }
-        .seo - hero__content { padding: 0; display: block; margin - top: -4rem; }
-        .seo - box { width: 90 %; margin: 0 auto; padding: 2.5rem 2rem; box - shadow: 0 10px 30px - 5px rgba(0, 0, 0, 0.15); }
-        .toc - list - dynamic { columns: 1; }
-        .article - body { padding: 3rem 1.5rem; }
-}
-`,
-    renderHtml: (v) => `
-  < section class="seo-article-wrap" >
-    <!--Hero Split-- >
-      <div class="seo-hero" >
-        <div class="seo-hero__content" >
-          <div class="seo-box" >
-            <h1>${v.title} </h1>
-              < div class="seo-facts" >
-                <h2>${v.facts_title} </h2>
-                  <ul>
-                  ${v.facts_list}
-</ul>
-  </div>
-  </div>
-  </div>
-
-  < div class="seo-hero__img-area" >
-    ${v.img_link ? `<a href="${v.img_link}" ${v.img_new_tab === 'true' ? 'target="_blank" rel="noopener noreferrer"' : ''} style="display:block;height:100%;">` : ''}
-<figure style="margin:0;height:100%;position:relative;" >
-  <img src="${v.img}" alt = "${v.img_alt}" title = "${v.img_title}" class="seo-hero__img" decoding = "async" >
-    ${v.img_caption ? `<figcaption style="position:absolute;bottom:0;left:0;width:100%;background:rgba(0,0,0,0.6);color:white;padding:0.5rem;font-size:0.85rem;">${v.img_caption}</figcaption>` : ''}
-</figure>
-            ${v.img_link ? `</a>` : ''}
-</div>
-  </div>
-
-  < div class="toc-container" > <div class="toc-box" > <div class="toc-header" id = "toc-toggle" > <h3>Table of Contents < /h3><svg class="toc-icon rotate" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" / > </svg></div > <div class="toc-content" id = "toc-body" style = "display: none;" > <ul class="toc-list-dynamic" id = "toc-list" > </ul></div > </div></div >
-
-    <!--Article Body-- >
-      <div class="article-body" >
-        ${v.body_content}
-</div>
-
-  <script>
-  (function () {
-    // Function to run TOC logic
-    const initTOC = () => {
-      const tocList = document.getElementById('toc-list');
-      const tocToggle = document.getElementById('toc-toggle');
-      const tocBody = document.getElementById('toc-body');
-      const tocIcon = tocToggle.querySelector('.toc-icon');
-
-      if (!tocList) return;
-
-      // Clear any existing items (safeguard)
-      tocList.innerHTML = '';
-
-      const headers = document.querySelectorAll('h2, h3');
-
-      headers.forEach((header, index) => {
-        if (header.closest('.seo-box') || header.closest('.toc-box')) return;
-
-        if (!header.id) {
-          header.id = 'section-' + index;
-        }
-
-        const li = document.createElement('li');
-        if (header.tagName.toLowerCase() === 'h3') {
-          li.classList.add('toc-h3');
-        }
-
-        const link = document.createElement('a');
-        link.href = '#' + header.id;
-        link.textContent = header.textContent;
-
-        li.appendChild(link);
-        tocList.appendChild(li);
-      });
-
-      if (tocToggle) {
-        tocToggle.onclick = () => {
-          if (tocBody.style.display === 'none') {
-            tocBody.style.display = 'block';
-            tocIcon.classList.remove('rotate');
-          } else {
-            tocBody.style.display = 'none';
-            tocIcon.classList.add('rotate');
-          }
-        };
+      @media(max-width: 1024px) {
+        .seo-hero { display: flex; flex-direction: column-reverse; min-height: auto; }
+        .seo-hero__img-area { height: 350px; min-height: 0; }
+        .seo-hero__content { padding: 0; display: block; margin-top: -4rem; }
+        .seo-box { width: 90%; margin: 0 auto; padding: 2.5rem 2rem; box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15); }
+        .toc-list-dynamic { columns: 1; }
+        .article-body { padding: 3rem 1.5rem; }
       }
-    };
+    `,
+    renderHtml: (v) => `
+      <section class="seo-article-wrap">
+        <!--Hero Split-->
+        <div class="seo-hero">
+          <div class="seo-hero__content">
+            <div class="seo-box">
+              <h1>${v.title}</h1>
+              <div class="seo-facts">
+                <h2>${v.facts_title}</h2>
+                <ul>${v.facts_list}</ul>
+              </div>
+            </div>
+          </div>
+          <div class="seo-hero__img-area">
+            ${v.img_link ? `<a href="${v.img_link}" ${v.img_new_tab === 'true' ? 'target="_blank" rel="noopener noreferrer"' : ''} style="display:block;height:100%;">` : ''}
+              <figure style="margin:0;height:100%;position:relative;">
+                <img src="${v.img}" alt="${v.img_alt}" title="${v.img_title}" class="seo-hero__img" decoding="async">
+                ${v.img_caption ? `<figcaption style="position:absolute;bottom:0;left:0;width:100%;background:rgba(0,0,0,0.6);color:white;padding:0.5rem;font-size:0.85rem;">${v.img_caption}</figcaption>` : ''}
+              </figure>
+            ${v.img_link ? `</a>` : ''}
+          </div>
+        </div>
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initTOC);
-    } else {
-      initTOC();
-    }
-  })();
-</script>
-  </section>
+        <div class="toc-container">
+          <div class="toc-box">
+            <div class="toc-header" id="toc-toggle">
+              <h3>Table of Contents</h3>
+              <svg class="toc-icon rotate" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+            <div class="toc-content" id="toc-body" style="display: none;">
+              <ul class="toc-list-dynamic" id="toc-list"></ul>
+            </div>
+          </div>
+        </div>
+
+        <!--Article Body-->
+        <div class="article-body">
+          ${v.body_content}
+        </div>
+
+        <script>
+          (function () {
+            // Function to run TOC logic
+            const initTOC = () => {
+              const tocList = document.getElementById('toc-list');
+              const tocToggle = document.getElementById('toc-toggle');
+              const tocBody = document.getElementById('toc-body');
+              const tocIcon = tocToggle.querySelector('.toc-icon');
+
+              if (!tocList) return;
+
+              // Clear any existing items (safeguard)
+              tocList.innerHTML = '';
+
+              const headers = document.querySelectorAll('h2, h3');
+
+              headers.forEach((header, index) => {
+                if (header.closest('.seo-box') || header.closest('.toc-box')) return;
+
+                if (!header.id) {
+                  header.id = 'section-' + index;
+                }
+
+                const li = document.createElement('li');
+                if (header.tagName.toLowerCase() === 'h3') {
+                  li.classList.add('toc-h3');
+                }
+
+                const link = document.createElement('a');
+                link.href = '#' + header.id;
+                link.textContent = header.textContent;
+
+                li.appendChild(link);
+                tocList.appendChild(li);
+              });
+
+              if (tocToggle) {
+                tocToggle.onclick = () => {
+                  if (tocBody.style.display === 'none') {
+                    tocBody.style.display = 'block';
+                    tocIcon.classList.remove('rotate');
+                  } else {
+                    tocBody.style.display = 'none';
+                    tocIcon.classList.add('rotate');
+                  }
+                };
+              }
+            };
+
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', initTOC);
+            } else {
+              initTOC();
+            }
+          })();
+        </script>
+      </section>
     `,
     referenceHtml: ``
   },
@@ -230,135 +273,140 @@ export const templates: TemplateSection[] = [
       { id: 's5d', label: 'Step 5 Description', type: 'textarea', defaultValue: "We conduct a meticulous final walkthrough to ensure every detail meets our exacting standards. We equip you with maintenance knowledge and stand behind our work with robust warranties." }
     ],
     css: `
-    .roadmap - section { padding: 8rem 0; background: #fff; overflow: hidden; }
+      .roadmap-section { padding: 8rem 0; background: #fff; overflow: hidden; }
       
-      .roadmap - header { text - align: center; max - width: 840px; margin: 0 auto 6rem; }
-      .roadmap - header span { display: block; font - size: 0.75rem; font - weight: 800; letter - spacing: 0.2em; color: var(--gray); margin - bottom: 1.5rem; text - transform: uppercase; }
-      .roadmap - header h2 { font - size: clamp(2rem, 4vw, 2.75rem); color: var(--navy); margin - bottom: 2.5rem; line - height: 1.1; letter - spacing: -0.02em; font - weight: 600; }
-      .roadmap - header p { font - size: 1.125rem; color: var(--gray); line - height: 1.7; opacity: 0.85; }
+      .roadmap-header { text-align: center; max-width: 840px; margin: 0 auto 6rem; }
+      .roadmap-header span { display: block; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.2em; color: var(--gray); margin-bottom: 1.5rem; text-transform: uppercase; }
+      .roadmap-header h2 { font-size: clamp(2rem, 4vw, 2.75rem); color: var(--navy); margin-bottom: 2.5rem; line-height: 1.1; letter-spacing: -0.02em; font-weight: 600; }
+      .roadmap-header p { font-size: 1.125rem; color: var(--gray); line-height: 1.7; opacity: 0.85; }
 
-      .roadmap - container { position: relative; max - width: 900px; margin: 0 auto; padding - left: 2rem; }
+      .roadmap-container { position: relative; max-width: 900px; margin: 0 auto; padding-left: 2rem; }
 
       /* Vertical Line */
-      .roadmap - container::before {
-  content: '';
-  position: absolute;
-  left: 3.5rem;
-  top: 2rem;
-  bottom: 2rem;
-  width: 1px;
-  background: #e2e8f0;
-  z - index: 1;
-}
+      .roadmap-container::before {
+        content: '';
+        position: absolute;
+        left: 3.5rem;
+        top: 2rem;
+        bottom: 2rem;
+        width: 1px;
+        background: #e2e8f0;
+        z-index: 1;
+      }
 
-      .roadmap - step {
-  position: relative;
-  z - index: 2;
-  display: flex;
-  gap: 3.5rem;
-  margin - bottom: 5rem;
-  align - items: flex - start;
-}
+      .roadmap-step {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        gap: 3.5rem;
+        margin-bottom: 5rem;
+        align-items: flex-start;
+      }
       
-      .roadmap - step: last - child { margin - bottom: 0; }
+      .roadmap-step:last-child { margin-bottom: 0; }
 
-      .step - icon - box {
-  flex - shrink: 0;
-  width: 4.5rem;
-  height: 4.5rem;
-  background: var(--navy);
-  color: white;
-  border - radius: 50 %;
-  display: flex;
-  align - items: center;
-  justify - content: center;
-  box - shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
-}
+      .step-icon-box {
+        flex-shrink: 0;
+        width: 4.5rem;
+        height: 4.5rem;
+        background: var(--navy);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+      }
       
-      .step - icon - box svg { width: 1.75rem; height: 1.75rem; }
+      .step-icon-box svg { width: 1.75rem; height: 1.75rem; }
 
-      .step - content { padding - top: 0.5rem; }
-      .step - label { font - size: 0.875rem; font - weight: 600; color: var(--gray); opacity: 0.6; margin - bottom: 0.75rem; display: block; }
-      .step - content h3 { font - size: 1.5rem; margin - bottom: 1.25rem; color: var(--navy); font - family: var(--sans); font - weight: 600; }
-      .step - content p { font - size: 1.05rem; color: var(--gray); line - height: 1.75; max - width: 760px; }
+      .step-content { padding-top: 0.5rem; }
+      .step-label { font-size: 0.875rem; font-weight: 600; color: var(--gray); opacity: 0.6; margin-bottom: 0.75rem; display: block; }
+      .step-content h3 { font-size: 1.5rem; margin-bottom: 1.25rem; color: var(--navy); font-family: var(--sans); font-weight: 600; }
+      .step-content p { font-size: 1.05rem; color: var(--gray); line-height: 1.75; max-width: 760px; }
 
-@media(max - width: 768px) {
-        .roadmap - section { padding: 5rem 0; }
-        .roadmap - container::before { left: 2.25rem; }
-        .roadmap - step { gap: 1.5rem; flex - direction: column; }
-        .step - icon - box { width: 3.5rem; height: 3.5rem; }
-        .step - icon - box svg { width: 1.25rem; height: 1.25rem; }
-        .roadmap - container { padding - left: 0; }
-        .roadmap - step { padding - left: 1.75rem; }
-}
-`,
+      @media(max-width: 768px) {
+        .roadmap-section { padding: 5rem 0; }
+        .roadmap-container::before { left: 2.25rem; }
+        .roadmap-step { gap: 1.5rem; flex-direction: column; }
+        .step-icon-box { width: 3.5rem; height: 3.5rem; }
+        .step-icon-box svg { width: 1.25rem; height: 1.25rem; }
+        .roadmap-container { padding-left: 0; }
+        .roadmap-step { padding-left: 1.75rem; }
+      }
+    `,
     renderHtml: (v) => `
-  < section class="roadmap-section" >
-    <div class="container" >
-      <div class="roadmap-header" >
-        <span>${v.pre} </span>
-          < h2 > ${v.title} </h2>
-            < p > ${v.intro} </p>
+      <section class="roadmap-section">
+        <div class="container">
+          <div class="roadmap-header">
+            <span>${v.pre}</span>
+            <h2>${v.title}</h2>
+            <p>${v.intro}</p>
+          </div>
+
+          <div class="roadmap-container">
+            ${(v.s1t || v.s1d) ? `
+            <div class="roadmap-step">
+              <div class="step-icon-box">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
               </div>
+              <div class="step-content">
+                <span class="step-label">Step 01</span>
+                <h3>${v.s1t}</h3>
+                <p>${v.s1d}</p>
+              </div>
+            </div>` : ''}
 
-              < div class="roadmap-container" >
-                <div class="roadmap-step" >
-                  <div class="step-icon-box" >
-                    <svg fill="none" stroke = "currentColor" viewBox = "0 0 24 24" > <path stroke - linecap="round" stroke - linejoin="round" stroke - width="2" d = "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" > </path></svg >
-                      </div>
-                      < div class="step-content" >
-                        <span class="step-label" > Step 01 </span>
-                          < h3 > ${v.s1t} </h3>
-                            < p > ${v.s1d} </p>
-                              </div>
-                              </div>
+            ${(v.s2t || v.s2d) ? `
+            <div class="roadmap-step">
+              <div class="step-icon-box">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+              </div>
+              <div class="step-content">
+                <span class="step-label">Step 02</span>
+                <h3>${v.s2t}</h3>
+                <p>${v.s2d}</p>
+              </div>
+            </div>` : ''}
 
-                              < div class="roadmap-step" >
-                                <div class="step-icon-box" >
-                                  <svg fill="none" stroke = "currentColor" viewBox = "0 0 24 24" > <path stroke - linecap="round" stroke - linejoin="round" stroke - width="2" d = "M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" > </path></svg >
-                                    </div>
-                                    < div class="step-content" >
-                                      <span class="step-label" > Step 02 </span>
-                                        < h3 > ${v.s2t} </h3>
-                                          < p > ${v.s2d} </p>
-                                            </div>
-                                            </div>
+            ${(v.s3t || v.s3d) ? `
+            <div class="roadmap-step">
+              <div class="step-icon-box">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+              </div>
+              <div class="step-content">
+                <span class="step-label">Step 03</span>
+                <h3>${v.s3t}</h3>
+                <p>${v.s3d}</p>
+              </div>
+            </div>` : ''}
 
-                                            < div class="roadmap-step" >
-                                              <div class="step-icon-box" >
-                                                <svg fill="none" stroke = "currentColor" viewBox = "0 0 24 24" > <path stroke - linecap="round" stroke - linejoin="round" stroke - width="2" d = "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" > </path></svg >
-                                                  </div>
-                                                  < div class="step-content" >
-                                                    <span class="step-label" > Step 03 </span>
-                                                      < h3 > ${v.s3t} </h3>
-                                                        < p > ${v.s3d} </p>
-                                                          </div>
-                                                          </div>
+            ${(v.s4t || v.s4d) ? `
+            <div class="roadmap-step">
+              <div class="step-icon-box">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 011-1h1a2 2 0 100-4H7a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>
+              </div>
+              <div class="step-content">
+                <span class="step-label">Step 04</span>
+                <h3>${v.s4t}</h3>
+                <p>${v.s4d}</p>
+              </div>
+            </div>` : ''}
 
-                                                          < div class="roadmap-step" >
-                                                            <div class="step-icon-box" >
-                                                              <svg fill="none" stroke = "currentColor" viewBox = "0 0 24 24" > <path stroke - linecap="round" stroke - linejoin="round" stroke - width="2" d = "M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 011-1h1a2 2 0 100-4H7a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" > </path></svg >
-                                                                </div>
-                                                                < div class="step-content" >
-                                                                  <span class="step-label" > Step 04 </span>
-                                                                    < h3 > ${v.s4t} </h3>
-                                                                      < p > ${v.s4d} </p>
-                                                                        </div>
-                                                                        </div>
-
-                                                                        < div class="roadmap-step" >
-                                                                          <div class="step-icon-box" >
-                                                                            <svg fill="none" stroke = "currentColor" viewBox = "0 0 24 24" > <path stroke - linecap="round" stroke - linejoin="round" stroke - width="2" d = "M5 13l4 4L19 7" > </path></svg >
-                                                                              </div>
-                                                                              < div class="step-content" >
-                                                                                <span class="step-label" > Step 05 </span>
-                                                                                  < h3 > ${v.s5t} </h3>
-                                                                                    < p > ${v.s5d} </p>
-                                                                                      </div>
-                                                                                      </div>
-                                                                                      </div>
-                                                                                      </div>
-                                                                                      </section>`,
+            ${(v.s5t || v.s5d) ? `
+            <div class="roadmap-step">
+              <div class="step-icon-box">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              </div>
+              <div class="step-content">
+                <span class="step-label">Step 05</span>
+                <h3>${v.s5t}</h3>
+                <p>${v.s5d}</p>
+              </div>
+            </div>` : ''}
+          </div>
+        </div>
+      </section>`,
     referenceHtml: `
 <section class="roadmap-section">
   <div class="container">
@@ -431,7 +479,11 @@ export const templates: TemplateSection[] = [
       { id: 'title', label: 'Section Title', type: 'text', defaultValue: "Why Choose Integrity" },
       { id: 'sub', label: 'Section Subtext', type: 'textarea', defaultValue: "Building trust through transparency and craftsmanship." },
       { id: 't1', label: 'Prop 1 Title', type: 'text', defaultValue: "No Financial Surprises" },
-      { id: 'd1', label: 'Prop 1 Desc', type: 'textarea', defaultValue: "Tired of unforeseen costs? Our detailed, fixed-price proposals mean your budget is respected from start to finish." }
+      { id: 'd1', label: 'Prop 1 Desc', type: 'textarea', defaultValue: "Tired of unforeseen costs? Our detailed, fixed-price proposals mean your budget is respected from start to finish." },
+      { id: 't2', label: 'Prop 2 Title', type: 'text', defaultValue: "Heritage of Quality" },
+      { id: 'd2', label: 'Prop 2 Desc', type: 'textarea', defaultValue: "Backed by the legacy of The Deck Store (est. 1986), we bring decades of stability and craftsmanship to every project." },
+      { id: 't3', label: 'Prop 3 Title', type: 'text', defaultValue: "A Process You Can Trust" },
+      { id: 'd3', label: 'Prop 3 Desc', type: 'textarea', defaultValue: "We replace chaos with clarity. You get a single dedicated project manager and a consistent team from start to finish." }
     ],
     css: `
       .value-props { padding: 5rem 0; background: var(--light); }
@@ -446,7 +498,7 @@ export const templates: TemplateSection[] = [
       .value-props__card p { font-size: 1rem; color: var(--gray); line-height: 1.6; }
       @media (max-width: 640px) { .value-props { padding: 4rem 0; } .value-props__grid { grid-template-columns: 1fr; gap: 1.5rem; } .value-props__card { padding: 2rem; } }
     `,
-    renderHtml: (v) => `<section id="why-choose-us" class="value-props"><div class="container"><div class="value-props__header"><h2>${v.title}</h2><p>${v.sub}</p></div><div class="value-props__grid"><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>${v.t1}</h3><p>${v.d1}</p></div><div class="value-props__card" style="border-top-color: var(--navy);"><div class="value-props__icon" style="background: #f1f5f9; color: var(--navy);">${SVG_ICONS.check}</div><h3>Heritage of Quality</h3><p>Backed by the legacy of The Deck Store (est. 1986), we bring decades of stability and craftsmanship to every project.</p></div><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>A Process You Can Trust</h3><p>We replace chaos with clarity. You get a single dedicated project manager and a consistent team from start to finish.</p></div></div></div></section>`,
+    renderHtml: (v) => `<section id="why-choose-us" class="value-props"><div class="container"><div class="value-props__header"><h2>${v.title}</h2><p>${v.sub}</p></div><div class="value-props__grid"><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>${v.t1}</h3><p>${v.d1}</p></div><div class="value-props__card" style="border-top-color: var(--navy);"><div class="value-props__icon" style="background: #f1f5f9; color: var(--navy);">${SVG_ICONS.check}</div><h3>${v.t2}</h3><p>${v.d2}</p></div><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>${v.t3}</h3><p>${v.d3}</p></div></div></div></section>`,
     referenceHtml: `<section id="why-choose-us" class="value-props"><div class="container"><div class="value-props__header"><h2>Why Choose Integrity</h2><p>Building trust through transparency and craftsmanship.</p></div><div class="value-props__grid"><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>No Financial Surprises</h3><p>Tired of unforeseen costs? Our detailed, fixed-price proposals mean your budget is respected from start to finish.</p></div><div class="value-props__card" style="border-top-color: var(--navy);"><div class="value-props__icon" style="background: #f1f5f9; color: var(--navy);">${SVG_ICONS.check}</div><h3>Heritage of Quality</h3><p>Backed by the legacy of The Deck Store (est. 1986), we bring decades of stability and craftsmanship to every project.</p></div><div class="value-props__card"><div class="value-props__icon">${SVG_ICONS.home}</div><h3>A Process You Can Trust</h3><p>We replace chaos with clarity. You get a single dedicated project manager and a consistent team from start to finish.</p></div></div></div></section>`
   },
   {
@@ -498,7 +550,7 @@ export const templates: TemplateSection[] = [
       .offering-card .btn-outline:hover { color: var(--white) !important; background: var(--navy); border-color: var(--navy); }
       @media (max-width: 768px) { .offerings-overview { padding: 4rem 0; } .offerings-overview__grid { grid-template-columns: 1fr; gap: 2rem; } .offering-card__img { height: 14rem; } .offering-card__body { padding: 2rem; } }
     `,
-    renderHtml: (v) => `<section id="services" class="offerings-overview"><div class="container"><div class="offerings-overview__header"><h2>${v.h2}</h2><p>${v.sub}</p></div><div class="offerings-overview__grid"><article class="offering-card"><div class="offering-card__img"><img src="${v.s1_img}" alt="${v.s1_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s1_title}</h3><p>${v.s1_desc}</p><a href="${v.s1_link}" class="btn btn-outline" style="color: var(--navy);">${v.s1_btn}</a></div></article><article class="offering-card"><div class="offering-card__img"><img src="${v.s2_img}" alt="${v.s2_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s2_title}</h3><p>${v.s2_desc}</p><a href="${v.s2_link}" class="btn btn-outline" style="color: var(--navy);">${v.s2_btn}</a></div></article><article class="offering-card"><div class="offering-card__img"><img src="${v.s3_img}" alt="${v.s3_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s3_title}</h3><p>${v.s3_desc}</p><a href="${v.s3_link}" class="btn btn-outline" style="color: var(--navy);">${v.s3_btn}</a></div></article></div></div></section>`,
+    renderHtml: (v) => `<section id="services" class="offerings-overview"><div class="container"><div class="offerings-overview__header"><h2>${v.h2}</h2><p>${v.sub}</p></div><div class="offerings-overview__grid"><article class="offering-card"><div class="offering-card__img"><img src="${v.s1_img}" alt="${v.s1_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s1_title}</h3><p>${v.s1_desc}</p>${(v.s1_btn && v.s1_link) ? `<a href="${v.s1_link}" class="btn btn-outline" style="color: var(--navy);">${v.s1_btn}</a>` : ''}</div></article><article class="offering-card"><div class="offering-card__img"><img src="${v.s2_img}" alt="${v.s2_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s2_title}</h3><p>${v.s2_desc}</p>${(v.s2_btn && v.s2_link) ? `<a href="${v.s2_link}" class="btn btn-outline" style="color: var(--navy);">${v.s2_btn}</a>` : ''}</div></article><article class="offering-card"><div class="offering-card__img"><img src="${v.s3_img}" alt="${v.s3_img_alt}" loading="lazy"></div><div class="offering-card__body"><h3>${v.s3_title}</h3><p>${v.s3_desc}</p>${(v.s3_btn && v.s3_link) ? `<a href="${v.s3_link}" class="btn btn-outline" style="color: var(--navy);">${v.s3_btn}</a>` : ''}</div></article></div></div></section>`,
     referenceHtml: `<section id="services" class="offerings-overview"><div class="container"><div class="offerings-overview__header"><h2>The Elements of Your Transformation</h2><p>We don't just sell services; we architect cohesive exteriors where every detail works in harmony.</p></div><div class="offerings-overview__grid"><article class="offering-card"><div class="offering-card__img"><img src="${PLACEHOLDER_IMG}" alt="Siding" loading="lazy"></div><div class="offering-card__body"><h3>Siding Solutions</h3><p>Transform curb appeal and energy efficiency with premium materials masterfully installed for longevity.</p><a href="#" class="btn btn-outline" style="color: var(--navy);">View Siding Options</a></div></article><article class="offering-card"><div class="offering-card__img"><img src="${PLACEHOLDER_IMG}" alt="Decks" loading="lazy"></div><div class="offering-card__body"><h3>Custom Decks</h3><p>Leveraging our heritage to build stunning composite and wood decks that anchor your outdoor living space.</p><a href="#" class="btn btn-outline" style="color: var(--navy);">View Deck Gallery</a></div></article></div></div></section>`
   },
   {
@@ -513,6 +565,8 @@ export const templates: TemplateSection[] = [
       { id: 'img_alt', label: 'Alt Text', type: 'text', defaultValue: "Sunrooms & Enclosures", group: 'Featured Image' },
       { id: 'img_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Featured Image' },
       { id: 'img_title', label: 'Title Attribute', type: 'text', defaultValue: "", group: 'Featured Image' },
+      { id: 'btn_text', label: 'Button Text', type: 'text', defaultValue: "Learn More" },
+      { id: 'btn_link', label: 'Button Link', type: 'url', defaultValue: "#" },
     ],
     css: `
       .feature-split { padding: 7rem 0; overflow: hidden; }
@@ -533,7 +587,7 @@ export const templates: TemplateSection[] = [
           ${v.img_link ? `</a>` : ''}
         </div>
       `;
-      return `<section class="feature-split"><div class="container"><div class="feature-split__grid">${imgBlock}<div class="feature-split__content"><h2>${v.title}</h2><p>${v.desc}</p><a href="#" class="btn btn-navy">Learn More</a></div></div></div></section>`;
+      return `<section class="feature-split"><div class="container"><div class="feature-split__grid">${imgBlock}<div class="feature-split__content"><h2>${v.title}</h2><p>${v.desc}</p><a href="${v.btn_link || '#'}" class="btn btn-navy">${v.btn_text || 'Learn More'}</a></div></div></div></section>`;
     },
     referenceHtml: `<section class="feature-split"><div class="container"><div class="feature-split__grid"><div class="feature-split__img"><img src="${PLACEHOLDER_IMG}" alt="Sunrooms & Enclosures" loading="lazy"></div><div class="feature-split__content"><h2>Sunrooms & Enclosures</h2><p>Extend your living space into the outdoors with light-filled enclosures designed for four-season enjoyment.</p><a href="#" class="btn btn-navy">Learn More</a></div></div></div></section>`
   },
@@ -549,6 +603,8 @@ export const templates: TemplateSection[] = [
       { id: 'img_alt', label: 'Alt Text', type: 'text', defaultValue: "Architectural Accents", group: 'Featured Image' },
       { id: 'img_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Featured Image' },
       { id: 'img_title', label: 'Title Attribute', type: 'text', defaultValue: "", group: 'Featured Image' },
+      { id: 'btn_text', label: 'Button Text', type: 'text', defaultValue: "Learn More" },
+      { id: 'btn_link', label: 'Button Link', type: 'url', defaultValue: "#" },
     ],
     css: `
       .feature-split { padding: 7rem 0; overflow: hidden; }
@@ -569,7 +625,7 @@ export const templates: TemplateSection[] = [
           ${v.img_link ? `</a>` : ''}
         </div>
       `;
-      return `<section class="feature-split"><div class="container"><div class="feature-split__grid"><div class="feature-split__content"><h2>${v.title}</h2><p>${v.desc}</p><a href="#" class="btn btn-navy">Learn More</a></div>${imgBlock}</div></div></section>`;
+      return `<section class="feature-split"><div class="container"><div class="feature-split__grid"><div class="feature-split__content"><h2>${v.title}</h2><p>${v.desc}</p><a href="${v.btn_link || '#'}" class="btn btn-navy">${v.btn_text || 'Learn More'}</a></div>${imgBlock}</div></div></section>`;
     },
     referenceHtml: `<section class="feature-split"><div class="container"><div class="feature-split__grid"><div class="feature-split__content"><h2>Architectural Accents</h2><p>Elevate your home's character with custom porticos and high-performance trims.</p><a href="#" class="btn btn-navy">Learn More</a></div><div class="feature-split__img"><img src="${PLACEHOLDER_IMG}" alt="Architectural Accents" loading="lazy"></div></div></div></section>`
   },
@@ -588,7 +644,7 @@ export const templates: TemplateSection[] = [
       { id: 'project1_link_new_tab', label: 'New Tab?', type: 'checkbox', defaultValue: 'false', group: 'Project 1 Image' },
       { id: 'project1_alt', label: 'Alt Text', type: 'text', defaultValue: '', group: 'Project 1 Image' },
       { id: 'project1_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Project 1 Image' },
-      { id: 'project1_title', label: 'Title Attribute', type: 'text', defaultValue: '', group: 'Project 1 Image' },
+      { id: 'project1_img_title', label: 'Title Attribute', type: 'text', defaultValue: '', group: 'Project 1 Image' },
 
       { id: 'project2_title', label: 'Project 2 Title', type: 'text', defaultValue: 'Unified Design. Masterful Build.' },
       { id: 'project2_desc', label: 'Project 2 Description', type: 'textarea', defaultValue: 'Stop juggling unreliable contractors. We orchestrate a complete, cohesive transformation for your home—combining siding, decks, and architectural details into a single vision.' },
@@ -597,7 +653,7 @@ export const templates: TemplateSection[] = [
       { id: 'project2_link_new_tab', label: 'New Tab?', type: 'checkbox', defaultValue: 'false', group: 'Project 2 Image' },
       { id: 'project2_alt', label: 'Alt Text', type: 'text', defaultValue: '', group: 'Project 2 Image' },
       { id: 'project2_caption', label: 'Caption', type: 'textarea', defaultValue: "", group: 'Project 2 Image' },
-      { id: 'project2_title', label: 'Title Attribute', type: 'text', defaultValue: '', group: 'Project 2 Image' },
+      { id: 'project2_img_title', label: 'Title Attribute', type: 'text', defaultValue: '', group: 'Project 2 Image' },
     ],
     css: `
       .gallery-section { background-color: var(--white); padding: 6rem 0 8rem; position: relative; overflow: hidden; }
@@ -606,13 +662,13 @@ export const templates: TemplateSection[] = [
       .gallery-header p { color: var(--gray); font-size: 1.125rem; line-height: 1.6; }
       
       .project-row { display: flex; align-items: center; min-height: 450px; margin-bottom: 6rem; position: relative; }
-      .project-row.reverse { flex-direction: row-reverse; }
+      .project-row.reverse { flex-direction: row; }
       
       .project-content { flex: 0 0 42%; position: relative; z-index: 10; padding: 2rem 0; display: flex; align-items: stretch; min-width: 0; }
       .project-card { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: clamp(2.5rem, 4vw, 4rem); color: var(--white); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); width: calc(100% + 4rem); margin-right: -4rem; display: flex; flex-direction: column; justify-content: center; min-height: 400px; }
       
-      .project-row.reverse .project-content { flex: 0 0 58%; width: 58%; justify-content: flex-end; }
-      .project-row.reverse .project-image-wrapper { flex: 0 0 42%; width: 42%; }
+      .project-row.reverse .project-content { flex: 0 0 42%; width: 42%; justify-content: flex-end; }
+      .project-row.reverse .project-image-wrapper { flex: 0 0 58%; width: 58%; }
       .project-row.reverse .project-card { margin-right: 0; margin-left: -4rem; width: calc(100% + 4rem); }
       
       .project-card h3 { font-size: 1.4rem; font-weight: 600; font-style: normal; margin-bottom: 1rem; line-height: 1.2; color: var(--white); }
@@ -627,10 +683,9 @@ export const templates: TemplateSection[] = [
 
       @media (max-width: 1024px) {
         .gallery-section { padding: 4rem 0; }
-        .project-row { display: flex; flex-direction: column-reverse; margin-bottom: 4rem; }
-        .project-row.reverse { flex-direction: column; }
-        .project-image-wrapper { height: 300px; min-height: auto; width: 100%; }
-        .project-content { width: 100%; padding: 0; margin-top: -3rem; }
+        .project-row, .project-row.reverse { display: flex; flex-direction: column-reverse; margin-bottom: 4rem; }
+        .project-image-wrapper, .project-row.reverse .project-image-wrapper { height: 300px; min-height: auto; width: 100%; flex: none; }
+        .project-content, .project-row.reverse .project-content { width: 100%; padding: 0; margin-top: -3rem; flex: none; }
         .project-card, .project-row.reverse .project-card { width: 90%; margin: 0 auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); }
       }
     `,
@@ -723,6 +778,7 @@ export const templates: TemplateSection[] = [
     description: 'Three-column grid for detailed customer feedback.',
     fields: [
       { id: 'title', label: 'Section Title', type: 'text', defaultValue: "Client Experiences" },
+      { id: 'desc', label: 'Section Description', type: 'textarea', defaultValue: "See what our clients have to say about their experience working with Integrity Remodeling." },
       // Review 1
       { id: 'review1_text', label: 'Review 1 Text', type: 'textarea', defaultValue: "Integrity Remodeling was a revelation. One team managed everything perfectly, from the initial design to the final cleanup." },
       { id: 'review1_name', label: 'Review 1 Name', type: 'text', defaultValue: "Sarah J., Oakville" },
@@ -736,7 +792,8 @@ export const templates: TemplateSection[] = [
     css: `
       .social-proof { padding: 7rem 0; background: var(--light); position: relative; }
       .social-proof__header { text-align: center; max-width: 800px; margin: 0 auto 5rem; }
-      .social-proof__header h2 { font-size: clamp(2rem, 4vw, 2.75rem); color: var(--navy); margin-bottom: 2rem; font-weight: 600; }
+      .social-proof__header h2 { font-size: clamp(2rem, 4vw, 2.75rem); color: var(--navy); margin-bottom: 1.5rem; font-weight: 600; }
+      .social-proof__header p { font-size: 1.125rem; color: var(--gray); line-height: 1.6; }
       
       .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; max-width: 1200px; margin: 0 auto; }
       .review-card { background: var(--white); padding: 3rem; border-radius: 8px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; height: 100%; transition: transform 0.3s ease; }
@@ -756,6 +813,7 @@ export const templates: TemplateSection[] = [
         <div class="container">
           <div class="social-proof__header">
             <h2>${v.title}</h2>
+            ${v.desc ? `<p>${v.desc}</p>` : ''}
           </div>
           <div class="reviews-grid">
             <div class="review-card">
@@ -779,6 +837,7 @@ export const templates: TemplateSection[] = [
         <div class="container">
           <div class="social-proof__header">
             <h2>Client Experiences</h2>
+            <p>See what our clients have to say about their experience working with Integrity Remodeling.</p>
           </div>
           <div class="reviews-grid">
             <div class="review-card">
@@ -803,14 +862,25 @@ export const templates: TemplateSection[] = [
     name: 'Pre-Footer CTA',
     description: 'Conversion-focused module with clear call to action.',
     fields: [
-      { id: 'h2', label: 'Heading', type: 'text', defaultValue: "Ready to Transform Your Home?" }
+      { id: 'h2', label: 'Heading', type: 'text', defaultValue: "Ready to Transform Your Home?" },
+      { id: 'p', label: 'Description', type: 'textarea', defaultValue: "Let's discuss your vision and see how we can bring it to life together." },
+      { id: 'btnText', label: 'Button Text', type: 'text', defaultValue: "Schedule Consultation" },
+      { id: 'btnUrl', label: 'Button URL', type: 'url', defaultValue: "#" },
+      { id: 'secondarySubtitle', label: 'Secondary Subtitle', type: 'text', defaultValue: 'Not ready to chat? Download our ' },
+      { id: 'secondaryLinkText', label: 'Secondary Link Text', type: 'text', defaultValue: 'GTA Renovation Planning Guide' },
+      { id: 'secondaryLinkUrl', label: 'Secondary Link URL', type: 'url', defaultValue: '#' }
     ],
     css: `
       .bottom-cta { padding: 8rem 0; text-align: center; background: white; border-top: 1px solid #eee; }
       .bottom-cta h2 { font-size: 2.5rem; margin-bottom: 2rem; font-weight: 600; }
+      .bottom-cta p { font-size: 1.25rem; color: #666; margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+      .bottom-cta .secondary-cta { margin-top: 3.5rem; }
+      .bottom-cta .secondary-subtitle { font-size: 1.1rem; color: #666; margin-bottom: 0.75rem; display: block; }
+      .bottom-cta .secondary-link { display: block; font-size: 1.1rem; color: var(--navy); font-weight: 600; text-decoration: underline; transition: 0.3s; }
+      .bottom-cta .secondary-link:hover { color: var(--orange); }
     `,
-    renderHtml: (v) => `<section class="bottom-cta"><div class="container"><h2>${v.h2}</h2><a href="#" class="btn btn-navy">Schedule Consultation</a></div></section>`,
-    referenceHtml: `<section class="bottom-cta"><div class="container"><h2>Ready to Transform Your Home?</h2><a href="#" class="btn btn-navy">Schedule Consultation</a></div></section>`
+    renderHtml: (v) => `<section class="bottom-cta"><div class="container"><h2>${v.h2}</h2><p>${v.p}</p><a href="${v.btnUrl}" class="btn btn-navy">${v.btnText}</a><div class="secondary-cta"><span class="secondary-subtitle">${v.secondarySubtitle}</span><a href="${v.secondaryLinkUrl}" class="secondary-link">${v.secondaryLinkText}</a></div></div></section>`,
+    referenceHtml: `<section class="bottom-cta"><div class="container"><h2>Ready to Transform Your Home?</h2><p>Let's discuss your vision and see how we can bring it to life together.</p><a href="#" class="btn btn-navy">Schedule Consultation</a><div class="secondary-cta"><span class="secondary-subtitle">Not ready to chat? Download our</span><a href="#" class="secondary-link">GTA Renovation Planning Guide</a></div></div></section>`
   },
   {
     id: 'contact',

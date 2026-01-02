@@ -5,9 +5,13 @@ import js_beautify from 'js-beautify';
 
 import { EditorSection } from '../data/types';
 
+import { TemplateSection } from '../data/types';
+
 const STORAGE_KEY = 'velosem-studio-v2-draft';
 
-export function useTemplateEditor() {
+export function useTemplateEditor(externalTemplates: TemplateSection[] = []) {
+  const availableTemplates = externalTemplates.length > 0 ? externalTemplates : templates;
+
   // --- Core State: Ordered List of Sections ---
   const [sections, setSections] = useState<EditorSection[]>(() => {
     // Initialize from LocalStorage if available
@@ -55,7 +59,7 @@ export function useTemplateEditor() {
 
   // The TEMPLATE CONFIG for the active section (fields, css, structure)
   const activeTemplate = useMemo(() =>
-    activeSection ? (templates.find(t => t.id === activeSection.templateId) || templates[0]) : null,
+    activeSection ? (availableTemplates.find(t => t.id === activeSection.templateId) || availableTemplates[0]) : null,
     [activeSection]);
 
   // --- Actions ---
@@ -68,7 +72,7 @@ export function useTemplateEditor() {
 
   // Add a new section to the stack
   const addSection = useCallback((templateId: string) => {
-    const template = templates.find(t => t.id === templateId);
+    const template = availableTemplates.find(t => t.id === templateId);
     if (!template) return;
 
     const newSection: EditorSection = {
@@ -210,7 +214,7 @@ export function useTemplateEditor() {
   // --- Export Logic ---
   const generateFullHtml = useCallback((targetSections: EditorSection[] = sections) => {
     return targetSections.map(section => {
-      const tmpl = templates.find(t => t.id === section.templateId);
+      const tmpl = availableTemplates.find(t => t.id === section.templateId);
       if (!tmpl) return '';
       const content = tmpl.renderHtml(section.values);
       return `<!-- ${tmpl.name} Start -->\n${content}\n<!-- ${tmpl.name} End -->`;
@@ -227,7 +231,7 @@ export function useTemplateEditor() {
 
   const generateFinalCss = useCallback(() => {
     // Combine CSS from ALL templates (Global CSS)
-    const templateCss = templates
+    const templateCss = availableTemplates
       .map(t => t.css || '')
       .join('\n');
 
